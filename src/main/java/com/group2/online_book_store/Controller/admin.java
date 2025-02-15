@@ -78,7 +78,7 @@ public class admin {
 //                .body(Map.of("status", "error", "message", "user not found!"));
 //    }
 
-    
+
     @PutMapping("/editBook")
     public ResponseEntity<String> editBook(@RequestBody Book updatedBook) {
         boolean isUpdated = bookService.updateBook(updatedBook);
