@@ -4,40 +4,29 @@ import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.book.Type;
 import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
-import com.group2.online_book_store.Service.BookDetailService.bookDetailService;
 import com.group2.online_book_store.Service.BookService.bookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.web.bind.annotation.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import java.io.IOException;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/home")
 @RestController
 public class home {
 
-    private final bookService bookservice;
-    private final bookDetailService bookdetailservice;
-    private final com.group2.online_book_store.Service.BookService.bookService bookService;
 
-    public home(bookService service, bookDetailService bookdetailservice, bookService bookService) {
-        this.bookservice = service;
-        this.bookdetailservice = bookdetailservice;
-        this.bookService = bookService;
-    }
+    private final bookService bookservice;
+
     public bookDTO toBookDTO(Book book) {
-        return bookService.getBookDTO(book);
+        return bookservice.getBookDTO(book);
     }
     @GetMapping("/bookList")
     public ResponseEntity<List<bookDTO>> Books() {
@@ -79,7 +68,7 @@ public class home {
     @PostMapping("/getDetail")
     public ResponseEntity<BookDetail> getDetail(@RequestBody Map<String, Integer> request) {
         int id = request.get("id"); // Extract `id` from the request body
-        Book newBook= bookService.searchById(id);
+        Book newBook= bookservice.searchById(id);
         if (newBook != null) {
             BookDetail detail = newBook.getBookDetail();
 
@@ -108,7 +97,7 @@ public class home {
     }
     @PostMapping("/searchById")
     public ResponseEntity <Book> searchBooks(@RequestBody Integer id) {
-        Book newbook = bookService.searchById(id);
+        Book newbook = bookservice.searchById(id);
         if (newbook == null) {
             return ResponseEntity.badRequest().body(null);
         }

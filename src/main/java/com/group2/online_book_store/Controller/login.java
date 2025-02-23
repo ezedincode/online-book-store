@@ -19,38 +19,38 @@ public class login {
         this.service = service;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<Map<String, String>> signup(@RequestBody User user) {
-        try {
-            service.registerUser(user.getEmail(), user.getPassword(), user.getUserName());
-            Map<String, String> response = Map.of(
-                    "status", "success",
-                    "message", "User Registered Successfully!"
-            );
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (IllegalArgumentException e) {
-            Map<String, String> errorResponse = Map.of(
-                    "status", "error",
-                    "message", e.getMessage()
-            );
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
-        }
-    }
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> Login(@RequestBody User user, HttpSession session) {
-        User customer = service.authenticateUser(user);
-
-        if (customer == null) {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("status", "error", "message", "Wrong  user name or password!"));
-
-        }
-
-        session.setAttribute("user", user);
-        String role=customer.getRole().toString();
-        return ResponseEntity.ok(Map.of("status", "success", "message", "Login successful","Role",role));
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<Map<String, String>> signup(@RequestBody User user) {
+//        try {
+//            service.registerUser(user.getEmail(), user.getPassword(), user.getUsername());
+//            Map<String, String> response = Map.of(
+//                    "status", "success",
+//                    "message", "User Registered Successfully!"
+//            );
+//            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//        } catch (IllegalArgumentException e) {
+//            Map<String, String> errorResponse = Map.of(
+//                    "status", "error",
+//                    "message", e.getMessage()
+//            );
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+//        }
+//    }
+//    @PostMapping("/login")
+//    public ResponseEntity<Map<String, String>> Login(@RequestBody User user, HttpSession session) {
+//        User customer = service.authenticateUser(user);
+//
+//        if (customer == null) {
+//
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(Map.of("status", "error", "message", "Wrong  user name or password!"));
+//
+//        }
+//
+//        session.setAttribute("user", user);
+//        String role=customer.getRole().toString();
+//        return ResponseEntity.ok(Map.of("status", "success", "message", "Login successful","Role",role));
+//    }
     @PostMapping("logout")
     public ResponseEntity<Map<String, String>> Logout(HttpSession session) {
         session.invalidate();

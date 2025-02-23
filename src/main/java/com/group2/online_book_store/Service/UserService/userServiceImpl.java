@@ -23,7 +23,7 @@ public class userServiceImpl implements userService{
     }
     @Override
     public User getUserByUserName(String username){
-        return userRepository.findByuserName(username);
+        return userRepository.findByusername(username);
     }
     @Override
     public User getUserById(Integer id){
@@ -73,14 +73,14 @@ public class userServiceImpl implements userService{
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        user.setUserName(userName);
+        user.setUsername(userName);
         userRepository.save(user);
     }
 
     @Override
     public User authenticateUser(User user) {
 
-        User existingUser  = userRepository.findByuserName(user.getUserName());
+        User existingUser  = userRepository.findByusername(user.getUsername());
 
         if (existingUser  != null && existingUser .getPassword().equals(user.getPassword())) {
 
@@ -90,8 +90,8 @@ public class userServiceImpl implements userService{
     }
     @Override
     public boolean updateUserDetails(User currentUser, User user) {
-        if (user.getUserName() != null && !user.getUserName().isEmpty()) {
-            currentUser.setUserName(user.getUserName());
+        if (user.getUsername() != null && !user.getUsername().isEmpty()) {
+            currentUser.setUsername(user.getUsername());
         }
 
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
