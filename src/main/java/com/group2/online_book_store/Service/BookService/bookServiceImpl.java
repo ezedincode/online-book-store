@@ -5,19 +5,15 @@ import com.group2.online_book_store.Entity.book.Type;
 import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Repository.bookRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
 @Service
+@RequiredArgsConstructor
 public class bookServiceImpl implements bookService {
     private final bookRepository repository;
-
-    public bookServiceImpl(bookRepository repository) {
-        this.repository = repository;
-    }
-
 
     @Override
     public boolean removeBook(int id) {
@@ -34,12 +30,10 @@ public class bookServiceImpl implements bookService {
 
             Book newBook = new Book(book);
 
-            // Ensure the BookDetail is properly associated
             if (newBook.getBookDetail() != null) {
                 newBook.getBookDetail().setBook(newBook);
             }
 
-            // Save the new Book entity (this will cascade to BookDetail)
             repository.save(newBook);
             return true;
         } catch (Exception e) {
@@ -59,8 +53,8 @@ public class bookServiceImpl implements bookService {
     }
 
     public String getBookImage(Integer bookId) {
-        Optional<Book> newbook = repository.findById(bookId);
-        return newbook.map(Book::getImage).orElse(null);
+        Optional<Book> newBook = repository.findById(bookId);
+        return newBook.map(Book::getImage).orElse(null);
     }
 
     public List<Book> getAllBooksInDescendingPriorityOrder() {

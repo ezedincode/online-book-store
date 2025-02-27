@@ -4,6 +4,6 @@ import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 
 public interface bookDetailService {
 
-    public void incrementDownloadCount(Integer bookId);
-    public BookDetail getBookDetail(Integer bookId);
+    void incrementDownloadCount(Integer bookId);
+    BookDetail getBookDetail(Integer bookId);
 }

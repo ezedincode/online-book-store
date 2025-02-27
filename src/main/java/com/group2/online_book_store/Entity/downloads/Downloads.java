@@ -24,7 +24,7 @@ public class Downloads {
 
     private LocalDate date;
 
-   // private int download_count;
+    private int download_count;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     @JsonIgnoreProperties("downloads")

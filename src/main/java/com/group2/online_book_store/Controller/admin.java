@@ -5,12 +5,14 @@ import com.group2.online_book_store.Entity.user.Status;
 import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Service.BookService.bookService;
 import com.group2.online_book_store.Service.UserService.userService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/admin")
 @RestController
@@ -18,11 +20,6 @@ public class admin {
 
     private final userService userService;
     private final bookService bookService;
-
-    public admin(userService service, bookService bookService) {
-        this.userService = service;
-        this.bookService = bookService;
-    }
 
     @DeleteMapping("/removeUser")
     public ResponseEntity<Map<String, String>> removeUser(@RequestBody User user) {
@@ -69,14 +66,14 @@ public class admin {
                 .body(Map.of("status", "error", "message", "Book does not exist!"));
     }
 
-//    @PutMapping("/setStatus")
-//    public ResponseEntity<Map<String, String>> setRole(@RequestBody User user) {
-//        if (userService.setAdmin(user)) {
-//            return ResponseEntity.ok(Map.of("status", "success", "message", "User promoted to admin!"));
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                .body(Map.of("status", "error", "message", "user not found!"));
-//    }
+    @PutMapping("/setStatus")
+    public ResponseEntity<Map<String, String>> setRole(@RequestBody User user) {
+        if (userService.setAdmin(user)) {
+            return ResponseEntity.ok(Map.of("status", "success", "message", "User promoted to admin!"));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("status", "error", "message", "user not found!"));
+    }
 
 
     @PutMapping("/editBook")

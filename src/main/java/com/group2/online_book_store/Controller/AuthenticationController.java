@@ -1,5 +1,9 @@
-package com.group2.online_book_store.auth;
+package com.group2.online_book_store.Controller;
 
+import com.group2.online_book_store.auth.AuthenticationRequest;
+import com.group2.online_book_store.auth.AuthenticationResponse;
+import com.group2.online_book_store.auth.AuthenticationService;
+import com.group2.online_book_store.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

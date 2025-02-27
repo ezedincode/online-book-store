@@ -13,7 +13,7 @@ public interface downloadsRepository extends JpaRepository<Downloads,Integer> {
     @Modifying
     @Transactional
     @Query("delete from Downloads d where d.user.id = :userId")
-    int deleteByUserId(Integer userId);
+    void deleteByUserId(Integer userId);
 
 
 }

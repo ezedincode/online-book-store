@@ -4,18 +4,15 @@ import com.group2.online_book_store.Entity.user.Role;
 import com.group2.online_book_store.Entity.user.Status;
 import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Repository.userRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
 @Service
 public class userServiceImpl implements userService{
     private final userRepository userRepository;
-
-    public userServiceImpl(userRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<User> getAllUsers(){
@@ -98,15 +95,13 @@ public class userServiceImpl implements userService{
             currentUser.setPassword(user.getPassword());
         }
 
-        if (user.getRole() != null) {
-            currentUser.setRole(user.getRole());
-        }
-
-        if (user.getStatus() != null) {
-            currentUser.setStatus(user.getStatus());
-        }
 
         if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+           if(!user.getEmail().equals(currentUser.getEmail())){
+               if(userRepository.existsByEmail(user.getEmail())){
+                   return false;
+               }
+           }
             currentUser.setEmail(user.getEmail());
         }
 

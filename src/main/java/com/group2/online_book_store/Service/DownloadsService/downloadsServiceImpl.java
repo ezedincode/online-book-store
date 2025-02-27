@@ -2,32 +2,25 @@ package com.group2.online_book_store.Service.DownloadsService;
 
 import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.downloads.Downloads;
-import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Repository.bookRepository;
 import com.group2.online_book_store.Repository.downloadsRepository;
 import com.group2.online_book_store.Service.UserService.userService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class downloadsServiceImpl implements downloadsService {
 
     private final downloadsRepository repository;
     private final bookRepository bookrepository;
-    private final com.group2.online_book_store.Service.UserService.userService userService;
+    private final userService userService;
     @PersistenceContext
     private EntityManager entityManager;
-
-
-    public downloadsServiceImpl(downloadsRepository repository , bookRepository bookrepository, userService userService) {
-        this.repository = repository;
-        this.bookrepository = bookrepository;
-        this.userService = userService;
-    }
 
     @Override
     public List<Downloads> getAllDownloads() {
@@ -67,11 +60,6 @@ public class downloadsServiceImpl implements downloadsService {
         if (book == null) {
             throw new IllegalArgumentException("Book not found");
         }
-
-//        if (!entityManager.contains(user)) {
-//            user = entityManager.merge(user);
-//        }
-
         Downloads newDownload = new Downloads();
         newDownload.setBook(book);
         newDownload.setUser(userService.getUserById(user_id));

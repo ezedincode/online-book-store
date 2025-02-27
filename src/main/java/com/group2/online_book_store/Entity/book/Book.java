@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -28,7 +27,7 @@ public class Book {
     private String author;
     @Column(length=11500)
     private String image;
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
     private String publishedDate;
 
     @Enumerated(EnumType.STRING)

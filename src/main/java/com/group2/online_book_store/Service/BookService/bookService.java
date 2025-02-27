@@ -10,17 +10,17 @@ import java.util.List;
 public interface bookService {
 
 
-    public boolean removeBook(int id);
+    boolean removeBook(int id);
 
-    public boolean addBook(Book book);
+    boolean addBook(Book book);
 
-    public List<Book> searchBooks(String keyword);
+     List<Book> searchBooks(String keyword);
 
-    public List<Book> searchByType(Type type);
-    public String getBookImage(Integer bookId);
+     List<Book> searchByType(Type type);
+     String getBookImage(Integer bookId);
 
-    public List<Book> getAllBooksInDescendingPriorityOrder();
-    public bookDTO getBookDTO(Book book);
-    public boolean updateBook(Book book);
-    public Book searchById(Integer id);
+     List<Book> getAllBooksInDescendingPriorityOrder();
+     bookDTO getBookDTO(Book book);
+     boolean updateBook(Book book);
+     Book searchById(Integer id);
 }
