@@ -6,9 +6,9 @@ import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Repository.userRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class userServiceImpl implements userService{
@@ -66,7 +66,6 @@ public class userServiceImpl implements userService{
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already exists. Please use a different one.");
         }
-
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
@@ -107,6 +106,9 @@ public class userServiceImpl implements userService{
 
         userRepository.save(currentUser);
         return true;
+    }
+    public int enableAppUser(String email) {
+        return userRepository.enableAppUser(email);
     }
 
 }

@@ -23,5 +23,5 @@ public interface userService {
      User authenticateUser (User user);
 
      boolean updateUserDetails(User currentUser, User user);
-
+     int enableAppUser(String email);
 }
