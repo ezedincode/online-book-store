@@ -107,7 +107,7 @@ Contributions are welcome! Feel free to submit a pull request or open an issue.
 
 ## Contact
 
-For any questions or support, please reach out via [your email or GitHub issues].
+For any questions or support, please reach out via
 
 ezedinadefa\@gmail.com
 
