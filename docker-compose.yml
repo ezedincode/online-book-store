@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  online-book-store:
+    container_name: online-book-store
+    image: online-book-store
+    build:
+      context: .
+    networks:
+      - app_network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - group2-container
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://group2-container:5432/group2
+      - SPRING_DATASOURCE_USERNAME=group2
+      - SPRING_DATASOURCE_PASSWORD=123456
+
+  group2-container:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: group2
+      POSTGRES_USER: group2
+      POSTGRES_PASSWORD: 123456
+    networks:
+      - app_network
+    ports:
+      - "5432:5432"
+networks:
+  app_network:
+    external: true
+
+
+
