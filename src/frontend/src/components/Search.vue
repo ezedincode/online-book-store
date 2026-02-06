@@ -76,10 +76,11 @@
     <p>BLOG</p>
   </div>
   <div class="bg-gradient-to-r from-[#ffe5e5] to-white w-full h-[657px] flex ">
-    <div class="w-1/2">
-        
+    <div class="w-1/2 shrink-0">
+        <h1 class="text-[50px] font-serif text-[#020257]"> world Between Covers</h1>
+        <p></p>
     </div>
-    <div class="flex gap-3">
+    <div class="flex gap-3 shrink-0 ">
     <div><img  class="w-[150px] shadow-lg rounded-[10px] mt-[100px]" src="\src\assets\book1.jpg" alt=""></div>
     <div class="flex flex-col gap-3">
         <img class="w-[150px] shadow-lg  h-44 mt-6 rounded-[10px]" src="/src\assets\book2.jpg" alt="">
@@ -87,8 +88,12 @@
     </div>
     <div class="flex flex-col gap-3">
         <img class="w-[150px]  shadow-lg rounded-[10px] mt-14" src="/src\assets\book4.jpg" alt="">
+        <img class="w-[150px]  shadow-lg rounded-[10px]" src="\src\assets\book5.jpg" alt="">
     </div>
-    <div></div>
+    <div class="flex flex-col gap-3 relative">
+        <img class="w-[140px] shadow-lg rounded-[10px] mt-2" src="/src\assets\book6.png" alt="">
+        <img class="w-[140px] shadow-lg rounded-[10px]" src="\src\assets\book8.jpg" alt="">
+    </div>
     </div>
   </div>
 </template>
