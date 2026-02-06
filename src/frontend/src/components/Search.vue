@@ -75,10 +75,26 @@
     <p class="border-r h-6 pr-14 ">CONTACT US</p>
     <p>BLOG</p>
   </div>
-  <div class="bg-gradient-to-r from-[#ffe5e5] to-white w-full h-[657px] flex ">
-    <div class="w-1/2 shrink-0">
-        <h1 class="text-[50px] font-serif text-[#020257]"> world Between Covers</h1>
-        <p></p>
+  <div class=" w-full h-[600px] flex">
+    <div class="w-1/2 flex flex-col shrink-0 bg-gradient-to-r from-[#ffe5e5] to-white">
+        <h1 class="text-[50px] font-bold  font-serif  ml-10 mt-28 text-[#173f5f]"> The Bookshelf</h1>
+        <p class="text-[20px] font-serif mr-16 leading-9 ml-10  text-[#173f5f]">
+        Your neighborhood nook for timeless stories and new discoveries. Each volume is chosen with care, inviting you to browse, linger, and find your next great read. Where the timeless joy of turning a page awaits.</p>
+        <button class="ml-10 mt-5 gap-2 justify-center items-center rounded-[10px] flex border w-[197px] h-[61px] border-[#173f5f]">READ MORE <img class="h-[13px] w-[15px]" src="\src\assets\icons8-arrow-right-24.png" alt=""></button>
+        <div class="flex justify-center h-12 space-x-3 mt-10 ml-12 self-start gap-2">
+            <button class="group relative w-3 h-3 rounded-full bg-red-600 hover:bg-red-600 transition-colors duration-200">
+                <span class="absolute -inset-2.5 border-[1px] border-red-500 rounded-full opacity-100 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </button>
+            <button class="group relative w-3 h-3 rounded-full bg-gray-300 hover:bg-red-600 transition-colors duration-200">
+                <span class="absolute -inset-2.5 border-[1px] border-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </button>
+            <button class="group relative w-3 h-3 rounded-full bg-gray-300 hover:bg-red-600 transition-colors duration-200">
+                <span class="absolute -inset-2.5 border-[1px] border-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </button>
+            <button class="group relative w-3 h-3 rounded-full bg-gray-300 hover:bg-red-600 transition-colors duration-200">
+                <span class="absolute -inset-2.5 border-[1px] border-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </button>
+        </div>
     </div>
     <div class="flex gap-3 shrink-0 ">
     <div><img  class="w-[150px] shadow-lg rounded-[10px] mt-[100px]" src="\src\assets\book1.jpg" alt=""></div>
