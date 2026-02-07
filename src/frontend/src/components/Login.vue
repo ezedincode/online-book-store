@@ -18,7 +18,7 @@
             Transform passive reading into an immersive, skill-building experience.</p>
 
             <div class="flex  mt-8 items-center">
-                <input class="w-3/4 rounded-[10px] rounded-r-[0px] placeholder:pl-5 h-14" type="text" placeholder="Enter Your Email Address">
+                <input class="w-3/4 rounded-[10px] outline-none px-8 rounded-r-[0px] placeholder:pl-5 h-14" type="text" placeholder="Enter Your Email Address">
                 <button class="h-14 w-1/4 rounded-[10px] rounded-l-[0px] bg-[#ed553b] font-bold text-[20px] text-white">Login</button>
             </div>
         </div>

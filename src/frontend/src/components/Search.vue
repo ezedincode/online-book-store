@@ -45,7 +45,7 @@
     <path d="M14.5776 14.5419C15.5805 13.53 16.2 12.1373 16.2 10.6C16.2 7.50721 13.6928 5 10.6 5C7.50721 5 5 7.50721 5 10.6C5 13.6928 7.50721 16.2 10.6 16.2C12.1555 16.2 13.5628 15.5658 14.5776 14.5419ZM14.5776 14.5419L19 19" stroke="#464455" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     </div>
-    <input type="text" class="pl-10 w-[40vw] py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
+    <input type="text" class="pl-10 w-[40vw] outline-none py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
     </div>
 </div>
     <div class="flex gap-5 ">
