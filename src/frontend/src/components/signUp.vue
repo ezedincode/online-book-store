@@ -1,30 +1,37 @@
 <script setup>
     import { ref} from 'vue'
     import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
+    import { useAuthStore } from '@/stores/auth';
 
-    const showPassword = ref(false)
+    const authStore =useAuthStore();
+    const showPassword = ref(false);
+    function submit(){
+        authStore.register();
+    }
 </script>
 
 <template>
     <div class="grid grid-cols-[2fr_3fr] gap-3 min-h-screen w-full">
         <div class="flex flex-col gap-3 ml-20 mt-8">
+            <div class="text-red-700" v-if="authStore.error">{{ authStore.error.value }}</div>
+            <div class="text-green-500" v-if="authStore.isRegistered">success</div>
             <h1 class="text-[35px] font-bold font-sans">Sign Up</h1>
             <p class="text-[17px]  mb-2 text-[#999797]">Sign up to enjoy the feature of e-book</p>
             <div class="flex flex-col gap-4">
-                <div class="relative">
-                    <input  type="text" placeholder="" class="w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focues:border-blue">
+                <!-- <div class="relative">
+                    <input v-model="authStore.registerForm.username" type="text" placeholder="" class="w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focues:border-blue">
                 <span class="absolute -top-3 left-4 bg-white px-2 text-gray-500 text-sm">Your Name</span>
-                </div>
+                </div> -->
                 <div class="relative">
-                    <input  type="text" placeholder="" class="w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focues:border-blue">
+                    <input  v-model="authStore.registerForm.username" type="text" placeholder="" class="w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focues:border-blue">
                 <span class="absolute -top-3 left-4 bg-white px-2 text-gray-500 text-sm">User Name</span>
                 </div>
                 <div class="relative">
-                    <input  type="text" placeholder="" class="w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focues:border-blue">
+                    <input v-model="authStore.registerForm.email" type="text" placeholder="" class="w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focues:border-blue">
                 <span class="absolute -top-3 left-4 bg-white px-2 text-gray-500 text-sm">Email</span>
                 </div>
                 <div class="relative">
-                    <input  type="text" placeholder="Password" class=" w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none placeholder:text-gray-500 absolute focues:border-blue">
+                    <input v-model="authStore.registerForm.password" type="text" placeholder="Password" class=" w-5/6 px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none placeholder:text-gray-500 absolute focues:border-blue">
                     <button type="button" @click="showPassword = !showPassword" class=" top-3 right-18">
                         <EyeIcon v-if="!showPassword" class="w-5 h-5 text-gray-500"/>
                         <EyeSlashIcon v-if="showPassword" class="w-5 h-5 text-gray-500" />
@@ -34,7 +41,7 @@
             <div>
                 
             </div>
-            <button class="w-5/6 mt-8 h-12 rounded-lg text-white font-bold text-[17px] bg-blue-600"> Sign Up</button>
+            <button @click="submit" class="w-5/6 mt-8 h-12 rounded-lg text-white font-bold text-[17px] bg-blue-600"> Sign Up</button>
             <span class="text-blue-800  w-5/6 underline text-center underline-offset-auto cursor-pointer">Forget password?</span>
             <div class="relative w-5/6">
             <hr class=" mt-3 border-[#a7a4a4]">
