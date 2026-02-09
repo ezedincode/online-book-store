@@ -25,7 +25,6 @@ export const useAuthStore = defineStore('auth', () => {
   const register = async () => {
     isLoading.value = true;
     error.value = null;
-    
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
@@ -48,6 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
       
     } catch (err) {
       error.value = err.message;
+      throw err
       console.error('Registration error:', err);
     } finally {
       isLoading.value = false;

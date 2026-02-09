@@ -2,19 +2,26 @@
     import { ref} from 'vue'
     import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
     import { useAuthStore } from '@/stores/auth';
+    import { useRouter } from 'vue-router';
 
+    const route = useRouter();
     const authStore =useAuthStore();
     const showPassword = ref(false);
-    function submit(){
-        authStore.register();
+    const is_registered = ref(true);
+    async function submit(){
+        try{
+        const data = await authStore.register();
+        route.push('/');
+        }catch (e){
+           console.log("error")
+        }
     }
 </script>
 
 <template>
     <div class="grid grid-cols-[2fr_3fr] gap-3 min-h-screen w-full">
         <div class="flex flex-col gap-3 ml-20 mt-8">
-            <div class="text-red-700" v-if="authStore.error">{{ authStore.error.value }}</div>
-            <div class="text-green-500" v-if="authStore.isRegistered">success</div>
+            <div class="text-red-700" v-if="authStore.error">user Name already taken</div>
             <h1 class="text-[35px] font-bold font-sans">Sign Up</h1>
             <p class="text-[17px]  mb-2 text-[#999797]">Sign up to enjoy the feature of e-book</p>
             <div class="flex flex-col gap-4">
