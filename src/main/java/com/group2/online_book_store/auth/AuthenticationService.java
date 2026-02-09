@@ -57,10 +57,10 @@ public class AuthenticationService {
                 user
         );
         confirmationRepository.save(confirmationToken);
-        String link = "http://localhost:8080/api/auth/confirm?token=" + token;
-        emailSender.send(
-                request.getEmail(),
-                buildEmail(request.getUsername(), link));
+//        String link = "http://localhost:8080/api/auth/confirm?token=" + token;
+//        emailSender.send(
+//                request.getEmail(),
+//                buildEmail(request.getUsername(), link));
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()

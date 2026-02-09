@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="h-full">
-            <img class="h-[100vh]" src="\src\assets\stockof_books.jpg" alt="">
+            <img class="h-full" src="\src\assets\stockof_books.jpg" alt="">
         </div>
             
     </div>
