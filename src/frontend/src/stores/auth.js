@@ -8,6 +8,10 @@ export const useAuthStore = defineStore('auth', () => {
     password: '',
     email: ''
   });
+  const LoginForm = ref({
+    username:'',
+    password:''
+  });
   
   const isLoading = ref(false);
   const error = ref(null);
@@ -21,7 +25,32 @@ export const useAuthStore = defineStore('auth', () => {
     registerForm.value = { username: '', password: '', email: '' };
     error.value = null;
   };
-  
+  const resetLoginForm = () => {
+    LoginForm.value = { username: '', password: ''};
+  };
+  const login = async () => {
+    try {
+      const response = await fetch(`${API_URL}/auth/authenticate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(LoginForm.value)
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+      
+      resetLoginForm();
+      
+      return data;
+    }catch (err) {
+      throw err
+    } finally {
+    }
+  };
+
   const register = async () => {
     isLoading.value = true;
     error.value = null;
@@ -58,6 +87,7 @@ export const useAuthStore = defineStore('auth', () => {
   return {
 
     registerForm,
+    LoginForm,
     isLoading,
     error,
     isRegistered,
