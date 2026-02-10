@@ -1,5 +1,27 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import BookItem from './BookItem.vue';
+import book8 from '@/assets/book8.jpg'
+import {ref,onMounted,onUnmounted} from 'vue';
+const showHeader = ref(true)
+let lastScrollY = window.scrollY
+console.log(showHeader.value)
+const onScroll =() => {
+    const currentScrollY = window.scrollY
+    if(currentScrollY > lastScrollY && currentScrollY > 50){
+        showHeader.value = false;
+        }
+        else{
+            showHeader.value = true 
+        }
+        lastScrollY = currentScrollY
+    }
+onMounted( () => {
+    window.addEventListener('scroll',onScroll)
+})
+onUnmounted(() => {
+    window.removeEventListener('scroll',onScroll)
+})
 const router = useRouter();
 
 function navigateHome () {
@@ -8,6 +30,7 @@ function navigateHome () {
 </script>
 <template>
     <div class="flex flex-col">
+        <div class="fixed bg-white  transition-transform duration-300 top-0 left-0 w-full z-50  flex flex-col" :class="showHeader ? 'translate-y-0' : '-translate-y-full'">
         <div class="flex justify-between ml-7 mt-8 mr-7 items-center">
             <div><p @click="navigateHome" class="text-[#00008B] font-bold cursor-pointer ">Home</p></div>
             <input type="text" class="pl-10 w-[40vw] outline-none py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
@@ -39,5 +62,18 @@ function navigateHome () {
     <p class="border-r h-6 pr-14 ">CONTACT US</p>
     <p>BLOG</p>
   </div>
+  </div>
+  <div class="flex flex-col mt-12  pt-[140px] mr-12 gap-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]">  
+    <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+    <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+    <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+  <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+    <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+    <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+    <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+  <BookItem :author="'robert'" :image="book8" :description="'The Art of War is an ancient Chinese military treatise written by Sun Tzu. It presents strategic principles on warfare, leadership, and decision-making, emphasizing planning, adaptability, deception, and understanding both oneself and the enemy. Though originally written for military commanders, its ideas are widely applied today in business, politics, and personal strategy.'" :type="'Fiction'"></BookItem>
+    
+</div>
+  
     </div>
 </template>
