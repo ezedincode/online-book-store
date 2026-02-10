@@ -75,14 +75,17 @@ public class AuthenticationService {
                        request.getPassword()
                )
        );
+        System.out.println("passes authentication manager");
         var user =repository.findByusername(request.getUsername());
-        if(user.getStatus().equals(Status.Active) ) {
+        System.out.println(user);
+        if(user.getStatus().equals(Status.NOTActive) ) {
 
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                         .token(jwtToken)
                         .build();
             }
+        System.out.println("finally");
         return null;
         }
 

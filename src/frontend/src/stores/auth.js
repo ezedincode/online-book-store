@@ -94,6 +94,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     updateRegisterField,
     resetForm,
-    register
+    register,
+    login
   };
 });

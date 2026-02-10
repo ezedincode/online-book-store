@@ -6,11 +6,11 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const authStore = useAuthStore();
 
-async function login (){
+async function login(){
     try{
         const data = await authStore.login();
         console.log()
-        router.push('/');
+        router.push('/signup');
     }catch (e) {
         console.log("error login")
     }
