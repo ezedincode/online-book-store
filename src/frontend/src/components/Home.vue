@@ -5,6 +5,7 @@ import featureBook from './featureBook.vue';
 import Footer from './footer.vue';
 import catagories from './catagories.vue';
 import signUp from './signUp.vue';
+import Book from './Book.vue';
 </script>
 <template>
 <Search></Search>
