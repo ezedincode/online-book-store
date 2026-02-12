@@ -76,7 +76,7 @@ return data;
   </div>
   <div class="flex flex-col mt-12  pt-[140px] mr-12 gap-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in data"> 
     
-    <BookItem :author="book.title" :image="image" :description="data.title" :type="data.type"></BookItem>
+    <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="data.publishedDate" :type="data.type" ></BookItem>
    
 </div>
   
