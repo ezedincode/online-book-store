@@ -24,6 +24,8 @@ public class Book {
 
     private String title;
 
+    private String description;
+
     private String author;
     @Column(length=11500)
     private String image;
@@ -55,4 +57,6 @@ public class Book {
     private BookDetail bookDetail;
 
 
+    public Book(int i, String bookTitle, String author, String url, String s, Type type, Object o, Object o1) {
+    }
 }

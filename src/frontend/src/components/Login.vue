@@ -9,7 +9,8 @@ const authStore = useAuthStore();
 async function login(){
     try{
         const data = await authStore.login();
-        console.log()
+        console.log(data)
+        
         router.push('/signup');
     }catch (e) {
         console.log("error login")

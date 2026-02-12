@@ -44,7 +44,7 @@ public class bookServiceImpl implements bookService {
 
     @Override
     public List<Book> searchBooks(String keyword) {
-        return repository.findByTitleContaining(keyword);
+        return repository.findByTitleContainingIgnoreCase(keyword);
     }
 
     @Override

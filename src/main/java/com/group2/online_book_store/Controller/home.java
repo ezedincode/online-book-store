@@ -38,7 +38,8 @@ public class home {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<bookDTO>> searchBooks(@RequestBody String keyword) {
+    public ResponseEntity<List<bookDTO>> searchBooks(@RequestBody Map<String, String> request) {
+        String keyword = request.get("keyword");
         if (keyword != null && !keyword.isEmpty()) {
             List<Book> books = bookservice.searchBooks(keyword);
             if (books.isEmpty()) {

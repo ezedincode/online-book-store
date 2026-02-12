@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface bookRepository extends JpaRepository<Book,Integer> {
-    @Query(value = "SELECT * FROM book WHERE LOWER(title) LIKE LOWER(concat('%',:keyword, '%'))", nativeQuery = true)
-    List<Book> findByTitleContaining(String keyword);
+
+    List<Book> findByTitleContainingIgnoreCase(String keyword);
+
 
 
     List<Book> findByType(Type type);

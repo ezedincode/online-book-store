@@ -2,17 +2,18 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
-    const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
   const registerForm = ref({
     username: '',
     password: '',
     email: ''
   });
+  const keyword = ref('');
   const LoginForm = ref({
-    username:'',
-    password:''
+    username: '',
+    password: ''
   });
-  
+
   const isLoading = ref(false);
   const error = ref(null);
   const isRegistered = ref(false);
@@ -20,13 +21,13 @@ export const useAuthStore = defineStore('auth', () => {
   const updateRegisterField = (field, value) => {
     registerForm.value[field] = value;
   };
-  
+
   const resetForm = () => {
     registerForm.value = { username: '', password: '', email: '' };
     error.value = null;
   };
   const resetLoginForm = () => {
-    LoginForm.value = { username: '', password: ''};
+    LoginForm.value = { username: '', password: '' };
   };
   const login = async () => {
     try {
@@ -41,11 +42,11 @@ export const useAuthStore = defineStore('auth', () => {
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
-      
+
       resetLoginForm();
-      localStorage.setItem('token',data.token);
+      localStorage.setItem('token', data.token);
       return data;
-    }catch (err) {
+    } catch (err) {
       throw err
     } finally {
     }
@@ -53,20 +54,28 @@ export const useAuthStore = defineStore('auth', () => {
 
   const searchBooks = async () => {
     const token = localStorage.getItem('token');
-    try{
-      const response = await fetch(`${API_URL}/auth/home/search`,{
-        method: 'GET',
-        header: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` 
-        }
+    if (!token) {
+      error.value = "Please login to search";
+      return;
+    }
+    console.log(token);
+    console.log(keyword.value)
+    try {
+      const response = await fetch(`${API_URL}/home/search`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ keyword: keyword.value })
       });
       const data = await response.json();
-       if (!response.ok) {
+      if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
-       return data;
-      
+      console.log(data[0]);
+      return data;
+
     } catch (err) {
       error.value = err.message;
       throw err
@@ -75,8 +84,8 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false;
     }
 
-    };
-  
+  };
+
   const register = async () => {
     isLoading.value = true;
     error.value = null;
@@ -88,18 +97,21 @@ export const useAuthStore = defineStore('auth', () => {
         },
         body: JSON.stringify(registerForm.value)
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
-      
+
       isRegistered.value = true;
       resetForm();
-      
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
+
       return data;
-      
+
     } catch (err) {
       error.value = err.message;
       throw err
@@ -108,8 +120,8 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false;
     }
   };
-  
-  
+
+
   return {
 
     registerForm,
@@ -117,11 +129,13 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading,
     error,
     isRegistered,
-    searchBooks,
+    keyword,
 
+    searchBooks,
     updateRegisterField,
     resetForm,
     register,
-    login
+    login,
+
   };
 });
