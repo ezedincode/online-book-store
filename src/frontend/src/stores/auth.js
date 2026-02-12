@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -52,29 +52,45 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
-  const searchBooks = async () => {
+  const books = ref([]);
+  watch(keyword ,async(newValue) =>{
+   
+      books.value = null;
     const token = localStorage.getItem('token');
     if (!token) {
       error.value = "Please login to search";
       return;
     }
     console.log(token);
-    console.log(keyword.value)
+    let response = null;
     try {
-      const response = await fetch(`${API_URL}/home/search`, {
+      
+      if(newValue == ''){
+        response = await fetch(`${API_URL}/home/bookList`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+        }
+         else{
+       response = await fetch(`${API_URL}/home/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ keyword: keyword.value })
+        body: JSON.stringify({ keyword: newValue })
       });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
       }
-      console.log(data[0]);
-      return data;
+       books.value = await response.json();
+      if (!response.ok) {
+        books.value = null;
+
+      }
+     console.log(books[0])
+     
 
     } catch (err) {
       error.value = err.message;
@@ -83,8 +99,8 @@ export const useAuthStore = defineStore('auth', () => {
     } finally {
       isLoading.value = false;
     }
-
-  };
+  })
+  
 
   const register = async () => {
     isLoading.value = true;
@@ -130,8 +146,8 @@ export const useAuthStore = defineStore('auth', () => {
     error,
     isRegistered,
     keyword,
+    books,
 
-    searchBooks,
     updateRegisterField,
     resetForm,
     register,

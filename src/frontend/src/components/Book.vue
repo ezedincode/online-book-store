@@ -31,12 +31,7 @@ const router = useRouter();
 function navigateHome () {
     router.push('/')
 }
-const data = ref([])
-async function search (){
-const result  = await authStore.searchBooks();
- data.value = result
-return data;
-}
+
 </script>
 <template>
     <div class="flex flex-col">
@@ -44,7 +39,7 @@ return data;
         <div class="flex justify-between ml-7 mt-8 mr-7 items-center">
             <div><p @click="navigateHome" class="text-[#00008B] font-bold cursor-pointer ">Home</p></div>
             <input v-model="authStore.keyword" type="text" class="pl-10 w-[40vw] outline-none py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
-            <button @click="search">search</button>
+            
             <div class="flex gap-5 ">
         <p class="text-[13px] font-bold flex gap-2 text-[#00008B] border-r border-[#a9a9b2] h-5 pr-2">
             <span class="mt-0.5"><svg fill="#00008B" width="17px" height="17px" viewBox="0 0 32 32" id="Outlined" xmlns="http://www.w3.org/2000/svg"><title/> <g id="Fill"> <path d="M24,17H8a5,5,0,0,0-5,5v7H5V22a3,3,0,0,1,3-3H24a3,3,0,0,1,3,3v7h2V22A5,5,0,0,0,24,17Z"/> <path d="M16,15a6,6,0,1,0-6-6A6,6,0,0,0,16,15ZM16,5a4,4,0,1,1-4,4A4,4,0,0,1,16,5Z"/> </g>
@@ -74,9 +69,9 @@ return data;
     <p>BLOG</p>
   </div>
   </div>
-  <div class="flex flex-col mt-12  pt-[140px] mr-12 gap-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in data"> 
-    
-    <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="data.publishedDate" :type="data.type" ></BookItem>
+  <div class="flex flex-col mt-12  pt-[140px] mr-12 gap-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
+
+    <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
 </div>
   
