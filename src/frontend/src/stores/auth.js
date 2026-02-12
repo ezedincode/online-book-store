@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
   const books = ref([]);
   watch(keyword ,async(newValue) =>{
    
-      books.value = null;
+    books.value = null;
     const token = localStorage.getItem('token');
     if (!token) {
       error.value = "Please login to search";
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore('auth', () => {
         books.value = null;
 
       }
-     console.log(books[0])
+     console.log(books[0] + hello)
      
 
     } catch (err) {
@@ -99,7 +99,8 @@ export const useAuthStore = defineStore('auth', () => {
     } finally {
       isLoading.value = false;
     }
-  })
+  },
+{immediate:true})
   
 
   const register = async () => {

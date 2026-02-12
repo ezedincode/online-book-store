@@ -69,10 +69,12 @@ function navigateHome () {
     <p>BLOG</p>
   </div>
   </div>
-  <div class="flex flex-col mt-12  pt-[140px] mr-12 gap-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
+  <div class="pt-[140px] mr-12 flex flex-col  gap-3 shrink-0">
+  <div class="  [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
 
     <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
+</div>
 </div>
   
     </div>
