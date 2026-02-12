@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
       }
       
       resetLoginForm();
-      
+      localStorage.setItem('token',data.token);
       return data;
     }catch (err) {
       throw err
@@ -51,6 +51,32 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const searchBooks = async () => {
+    const token = localStorage.getItem('token');
+    try{
+      const response = await fetch(`${API_URL}/auth/home/search`,{
+        method: 'GET',
+        header: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+        }
+      });
+      const data = await response.json();
+       if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+       return data;
+      
+    } catch (err) {
+      error.value = err.message;
+      throw err
+      console.error('Registration error:', err);
+    } finally {
+      isLoading.value = false;
+    }
+
+    };
+  
   const register = async () => {
     isLoading.value = true;
     error.value = null;
@@ -91,6 +117,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading,
     error,
     isRegistered,
+    searchBooks,
 
     updateRegisterField,
     resetForm,
