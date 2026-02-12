@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.springframework.http.HttpHeaders;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @RequiredArgsConstructor
@@ -27,6 +28,9 @@ public class home {
 
     public bookDTO toBookDTO(Book book) {
         return bookservice.getBookDTO(book);
+    }
+    public String getDescription(Integer id) {
+        return bookservice.description(id);
     }
     @GetMapping("/bookList")
     public ResponseEntity<List<bookDTO>> Books() {
@@ -45,9 +49,14 @@ public class home {
             if (books.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            List<bookDTO> bookDTOs= books.stream()
-                        .map(this::toBookDTO)
-                        .toList();
+            List<bookDTO> bookDTOs = new ArrayList<>();
+            for(Book book : books) {
+                bookDTO bookDTO = toBookDTO(book);
+                bookDTO.setDescription(getDescription(book.getId()));
+                System.out.println();
+                bookDTOs.add(bookDTO);
+            }
+
             return ResponseEntity.ok(bookDTOs);
         }
         return ResponseEntity.badRequest().body(null);

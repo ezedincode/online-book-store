@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface bookDetailRepository extends JpaRepository<BookDetail,Integer> {
-    BookDetail findBybookId(Integer bookId);
+    BookDetail findByBookId(Integer bookId);
 
 
 }

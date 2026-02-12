@@ -4,6 +4,7 @@ import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.book.Type;
 import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
+import com.group2.online_book_store.Repository.bookDetailRepository;
 import com.group2.online_book_store.Repository.bookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class bookServiceImpl implements bookService {
     private final bookRepository repository;
-
+    private final bookDetailRepository detailRepository;
     @Override
     public boolean removeBook(int id) {
         if (repository.existsById(id)) {
@@ -104,5 +105,13 @@ public class bookServiceImpl implements bookService {
             return true;
         }
         return false;
+    }
+    public String description (Integer id){
+        BookDetail  bookDetail = detailRepository.findById(id).orElse(null);
+        System.out.println("book details: " + bookDetail);
+        if(bookDetail==null){
+            return null;
+        }
+        return bookDetail.getDescription();
     }
 }

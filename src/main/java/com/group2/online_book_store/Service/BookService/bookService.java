@@ -23,4 +23,5 @@ public interface bookService {
      bookDTO getBookDTO(Book book);
      boolean updateBook(Book book);
      Book searchById(Integer id);
+     String description(Integer id);
 }
