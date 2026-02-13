@@ -6,6 +6,7 @@ import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Service.BookService.bookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.Resource;
@@ -33,19 +34,33 @@ public class home {
         return bookservice.description(id);
     }
     @GetMapping("/bookList")
-    public ResponseEntity<List<bookDTO>> Books() {
-        List<Book> books = bookservice.getAllBooksInDescendingPriorityOrder();
-        List<bookDTO> bookDTOs= books.stream()
-                .map(this::toBookDTO)
-                .toList();
+    public ResponseEntity<List<bookDTO>> Books(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<Book> books = bookservice.getAllBooksInDescendingPriorityOrder(page,size);
+        if (books.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<bookDTO> bookDTOs = new ArrayList<>();
+        for(Book book : books) {
+            bookDTO bookDTO = toBookDTO(book);
+            bookDTO.setDescription(getDescription(book.getId()));
+            System.out.println();
+            bookDTOs.add(bookDTO);
+        }
+
         return ResponseEntity.ok(bookDTOs);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<bookDTO>> searchBooks(@RequestBody Map<String, String> request) {
+    public ResponseEntity<List<bookDTO>> searchBooks(
+            @RequestBody Map<String, String> request,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
         String keyword = request.get("keyword");
         if (keyword != null && !keyword.isEmpty()) {
-            List<Book> books = bookservice.searchBooks(keyword);
+            Page<Book> books = bookservice.searchBooks(keyword,page,size);
             if (books.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }

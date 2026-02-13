@@ -4,6 +4,7 @@ import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.book.Type;
 import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,12 +15,12 @@ public interface bookService {
 
     boolean addBook(Book book);
 
-     List<Book> searchBooks(String keyword);
+     Page<Book> searchBooks(String keyword, int page , int size);
 
      List<Book> searchByType(Type type);
      String getBookImage(Integer bookId);
 
-     List<Book> getAllBooksInDescendingPriorityOrder();
+     Page<Book> getAllBooksInDescendingPriorityOrder(int page,int size);
      bookDTO getBookDTO(Book book);
      boolean updateBook(Book book);
      Book searchById(Integer id);

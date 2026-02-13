@@ -75,6 +75,14 @@ function navigateHome () {
     <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
 </div>
+<div class="flex gap-2 items-center justify-center text-center  mt-6">
+<span class="w-12 flex justify-center items-center h-5 border border-[#413e3e] cursor-pointer border hover:border-2 hover:border-blue-600"><-</span>
+<span v-for="(value,index) in Array(10)" class="w-12 flex h-5 border hover:border-2 hover:border-blue-600  border-[#413e3e] cursor-pointer items-center justify-center">
+    {{ index + 1 }}
+</span>
+<span class="w-12 h-5 flex items-center justify-center border border-[#413e3e] cursor-pointer border hover:border-2 hover:border-blue-600">-></span>
+</div>
+
 </div>
   
     </div>

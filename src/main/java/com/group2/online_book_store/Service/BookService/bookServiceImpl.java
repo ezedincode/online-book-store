@@ -7,6 +7,9 @@ import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Repository.bookDetailRepository;
 import com.group2.online_book_store.Repository.bookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +47,9 @@ public class bookServiceImpl implements bookService {
     }
 
     @Override
-    public List<Book> searchBooks(String keyword) {
-        return repository.findByTitleContainingIgnoreCase(keyword);
+    public Page<Book> searchBooks(String keyword,int page,int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByTitleContainingIgnoreCase(keyword,pageable);
     }
 
     @Override
@@ -58,8 +62,9 @@ public class bookServiceImpl implements bookService {
         return newBook.map(Book::getImage).orElse(null);
     }
 
-    public List<Book> getAllBooksInDescendingPriorityOrder() {
-        return repository.findAllBooksOrderByPriorityDesc();
+    public Page<Book> getAllBooksInDescendingPriorityOrder(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAllBooksOrderByPriorityDesc(pageable);
     }
 
     public bookDTO getBookDTO( Book book) {
