@@ -31,7 +31,16 @@ const router = useRouter();
 function navigateHome () {
     router.push('/')
 }
-
+function setPageAndSize(page){
+    authStore.page = page;
+    console.log(authStore.page)
+}
+function decrementPage(){
+    authStore.page--;
+}
+function incrementPage(){
+    authStore.page++;
+}
 </script>
 <template>
     <div class="flex flex-col">
@@ -76,11 +85,11 @@ function navigateHome () {
    
 </div>
 <div class="flex gap-2 items-center justify-center text-center  mt-6">
-<span class="w-12 flex justify-center items-center h-5 border border-[#413e3e] cursor-pointer border hover:border-2 hover:border-blue-600"><-</span>
-<span v-for="(value,index) in Array(10)" class="w-12 flex h-5 border hover:border-2 hover:border-blue-600  border-[#413e3e] cursor-pointer items-center justify-center">
+<span @click="decrementPage()" class="w-12 flex justify-center items-center h-5 border border-[#413e3e] cursor-pointer  hover:border-2 hover:border-blue-600"><-</span>
+<span  @click="setPageAndSize(index+1)" v-for="(value,index) in Array(10)" class="w-12 flex h-5 border hover:border-2 hover:border-blue-600  border-[#413e3e] cursor-pointer items-center justify-center">
     {{ index + 1 }}
 </span>
-<span class="w-12 h-5 flex items-center justify-center border border-[#413e3e] cursor-pointer border hover:border-2 hover:border-blue-600">-></span>
+<span @click="incrementPage()" class="w-12 h-5 flex items-center justify-center border border-[#413e3e] cursor-pointer  hover:border-2 hover:border-blue-600">-></span>
 </div>
 
 </div>

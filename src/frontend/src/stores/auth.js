@@ -53,7 +53,14 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const books = ref([]);
-  watch(keyword ,async(newValue) =>{
+  const page = ref('1');
+  const size = ref('10');
+
+  watch(keyword, () => {
+  page.value = '1'
+});
+
+  watch([keyword,page] ,async([newKeyword,newPage]) =>{
    
     books.value = null;
     const token = localStorage.getItem('token');
@@ -65,8 +72,9 @@ export const useAuthStore = defineStore('auth', () => {
     let response = null;
     try {
       
-      if(newValue == ''){
-        response = await fetch(`${API_URL}/home/bookList`, {
+      if(newKeyword == ''){
+        response = await fetch(`${API_URL}/home/bookList?page=${newPage}&size=${size.value}`, {
+          
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -75,13 +83,13 @@ export const useAuthStore = defineStore('auth', () => {
       });
         }
          else{
-       response = await fetch(`${API_URL}/home/search`, {
+       response = await fetch(`${API_URL}/home/search?page=${newPage}&size=${size.value}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ keyword: newValue })
+        body: JSON.stringify({ keyword: newKeyword })
       });
       }
        books.value = await response.json();
@@ -89,7 +97,7 @@ export const useAuthStore = defineStore('auth', () => {
         books.value = null;
 
       }
-     console.log(books[0] + hello)
+
      
 
     } catch (err) {
@@ -148,6 +156,8 @@ export const useAuthStore = defineStore('auth', () => {
     isRegistered,
     keyword,
     books,
+    page,
+    size,
 
     updateRegisterField,
     resetForm,
