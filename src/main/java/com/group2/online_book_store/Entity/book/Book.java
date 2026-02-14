@@ -24,8 +24,6 @@ public class Book {
 
     private String title;
 
-    private String description;
-
     private String author;
     @Column(length=11500)
     private String image;

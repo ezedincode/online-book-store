@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class bookServiceImpl implements bookService {
 
     @Override
     public Page<Book> searchBooks(String keyword,int page,int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("id").ascending());
         return repository.findByTitleContainingIgnoreCase(keyword,pageable);
     }
 
@@ -63,7 +64,7 @@ public class bookServiceImpl implements bookService {
     }
 
     public Page<Book> getAllBooksInDescendingPriorityOrder(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         return repository.findAllBooksOrderByPriorityDesc(pageable);
     }
 

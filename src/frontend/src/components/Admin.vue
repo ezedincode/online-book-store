@@ -1,0 +1,43 @@
+<script setup>
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+async function addBook(){
+    try {
+        await authStore.addBook();
+        alert('Book added successfully!');
+    } catch (err) {
+        alert('Error adding book: ' + err.message);
+    }
+}
+</script>
+
+<template>
+    <div class="flex flex-col gap-5">
+        <div class="flex h-12 bg-[#173f5f] justify-center items-center">
+            <div class="text-[20px] text-white">
+                ADMIN PAGE
+            </div>
+        </div>
+        <div class="flex items-center ml-12 flex-col gap-3 [&>input]:w-1/2 [&>input]:border [&>input]:h-12 [&>input]:rounded-lg [&>input]:pl-6">
+            <input v-model="authStore.newBook.title" type="text" placeholder="Title">
+            <input v-model="authStore.newBook.author" type="text" placeholder="Author">
+            <input v-model="authStore.newBook.image" type="text" placeholder="Image URL">
+            <input v-model="authStore.newBook.publishedDate" type="text" placeholder="Published Date (YYYY-MM-DD)">
+            <select v-model="authStore.newBook.type" class="w-1/2 border h-12 rounded-lg pl-6">
+                <option value="" disabled selected>Select Type</option>
+                <option value="Academic">Academic</option>
+                <option value="Biography">Biography</option>
+                <option value="Children">Children</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Technology">Technology</option>
+                <option value="Art">Art</option>
+                <option value="NonFiction">NonFiction</option>
+            </select>
+            <input v-model.number="authStore.newBook.bookDetail.rating" type="number" placeholder="Rating (0-5)" min="0" max="5">
+            <input v-model="authStore.newBook.bookDetail.description" type="text" placeholder="Description">
+            <button @click="addBook()" class="border bg-green-600 text-white w-32 h-12 rounded-lg mt-5 hover:bg-green-700 transition" >ADD BOOK</button>
+        </div>
+    </div>
+</template>

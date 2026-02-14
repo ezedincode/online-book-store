@@ -57,11 +57,11 @@ export const useAuthStore = defineStore('auth', () => {
   const size = ref('10');
 
   watch(keyword, () => {
-  page.value = '1'
-});
+    page.value = '1'
+  });
 
-  watch([keyword,page] ,async([newKeyword,newPage]) =>{
-   
+  watch([keyword, page], async ([newKeyword, newPage]) => {
+
     books.value = null;
     const token = localStorage.getItem('token');
     if (!token) {
@@ -71,34 +71,34 @@ export const useAuthStore = defineStore('auth', () => {
     console.log(token);
     let response = null;
     try {
-      
-      if(newKeyword == ''){
+
+      if (newKeyword == '') {
         response = await fetch(`${API_URL}/home/bookList?page=${newPage}&size=${size.value}`, {
-          
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-        }
-         else{
-       response = await fetch(`${API_URL}/home/search?page=${newPage}&size=${size.value}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ keyword: newKeyword })
-      });
+
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
       }
-       books.value = await response.json();
+      else {
+        response = await fetch(`${API_URL}/home/search?page=${newPage}&size=${size.value}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ keyword: newKeyword })
+        });
+      }
+      books.value = await response.json();
       if (!response.ok) {
         books.value = null;
 
       }
 
-     
+
 
     } catch (err) {
       error.value = err.message;
@@ -108,8 +108,8 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false;
     }
   },
-{immediate:true})
-  
+    { immediate: true })
+
 
   const register = async () => {
     isLoading.value = true;
@@ -145,6 +145,70 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = false;
     }
   };
+  const newBook = ref({
+    title: '',
+    author: '',
+    image: '',
+    type: 'Fiction',
+    publishedDate: '',
+    bookDetail: {
+      rating: 0,
+      description: ''
+    },
+    downloads: []
+  })
+  const resetNewBook = () => {
+    newBook.value = {
+      title: '',
+      author: '',
+      image: '',
+      type: 'Fiction',
+      publishedDate: '',
+      bookDetail: {
+        rating: 0,
+        description: ''
+      },
+      downloads: []
+    }
+  }
+
+  const addBook = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      error.value = "Please login as admin";
+      return;
+    }
+    try {
+      const response = await fetch(`${API_URL}/admin/addBook`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(newBook.value)
+      });
+
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to add book');
+        }
+        resetNewBook();
+        return data;
+      } else {
+        const text = await response.text();
+        console.error("Server Error Response:", text);
+        throw new Error(`Server returned error ${response.status}. See console for details.`);
+      }
+
+    } catch (err) {
+      error.value = err.message;
+      throw err
+    } finally {
+      isLoading.value = false;
+    }
+  };
 
 
   return {
@@ -158,11 +222,13 @@ export const useAuthStore = defineStore('auth', () => {
     books,
     page,
     size,
+    newBook,
 
     updateRegisterField,
     resetForm,
+    resetNewBook,
     register,
     login,
-
+    addBook
   };
 });
