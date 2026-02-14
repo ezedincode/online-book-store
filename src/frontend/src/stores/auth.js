@@ -220,7 +220,34 @@ const initialize = () => {
       isLoading.value = false;
     }
   };
-
+  const bookid = ref(0);
+const deleteBook = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      error.value = "Please login as admin";
+      return;
+    }
+    try {
+      const response = await fetch(`${API_URL}/admin/removeBook`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({'id' : bookid.value})
+      });
+       const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to delete book');
+        }
+         return data;
+      }catch (err) {
+      error.value = err.message;
+      throw err
+    } finally {
+      isLoading.value = false;
+    }
+  };
 
   return {
 
@@ -235,8 +262,10 @@ const initialize = () => {
     size,
     newBook,
     role,
+    bookid,
 
     updateRegisterField,
+    deleteBook,
     initialize,
     resetForm,
     resetNewBook,

@@ -2,7 +2,6 @@
 import { useAuthStore } from '@/stores/auth';
 import { ref} from 'vue';
 import BookItem from './BookItem.vue';
-import pagination from './pagination.vue';
 import Pagination from './pagination.vue';
 
 const authStore = useAuthStore();
@@ -24,6 +23,11 @@ function listBookSelector(){
 }
 function removeBookSelector(){
     selector.value = 'removeBook';
+}
+function deleteBook(id) {
+    console.log(id)
+    authStore.bookid = id;
+    authStore.deleteBook();
 }
 </script>
 
@@ -49,10 +53,14 @@ function removeBookSelector(){
         <div class="flex flex-col gap-5 " v-if="selector==='bookList'">
               <div class="  [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd] " v-for="book in authStore.books" > 
 
-    <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
+    <BookItem @delete="deleteBook" @edit="editBook" :id="book.id" :role="'Admin'" :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
 </div>
+<Pagination></Pagination>
         </div >
+        <div v-else-if="selector === 'editBook'">
+
+        </div>
         <div class="flex items-center ml-12 flex-col gap-3 [&>input]:w-1/2 [&>input]:border [&>input]:h-12 [&>input]:rounded-lg [&>input]:pl-6" v-else-if="selector === 'addBook'">
             <input v-model="authStore.newBook.title" type="text" placeholder="Title">
             <input v-model="authStore.newBook.author" type="text" placeholder="Author">
@@ -72,6 +80,6 @@ function removeBookSelector(){
             <input v-model="authStore.newBook.bookDetail.description" type="text" placeholder="Description">
             <button @click="addBook()" class="border bg-green-600 text-white w-32 h-12 rounded-lg mt-5 hover:bg-green-700 transition" >ADD BOOK</button>
         </div>
-        <Pagination></Pagination>
+        
     </div>
 </template>

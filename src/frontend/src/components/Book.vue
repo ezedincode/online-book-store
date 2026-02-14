@@ -76,7 +76,7 @@ function navigateHome () {
   <div class="pt-[140px] mr-12 flex flex-col  gap-3 shrink-0">
   <div class="  [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
 
-    <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
+    <BookItem  :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
 </div>
 <Pagination></Pagination>
