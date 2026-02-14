@@ -22,7 +22,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class=" flex h-[40vh] ml-12 overflow-hidden">
+    <div class=" flex h-[40vh] ml-12 overflow-hidden mr-12">
         <div class="w-[402px] h-full">
             <img class="h-full rounded-lg" :src="props.image">
         </div>

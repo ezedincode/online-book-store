@@ -4,6 +4,8 @@ import BookItem from './BookItem.vue';
 import book8 from '@/assets/book8.jpg'
 import { useAuthStore } from '@/stores/auth';
 import {ref,onMounted,onUnmounted} from 'vue';
+import pagination from './pagination.vue';
+import Pagination from './pagination.vue';
 
 const authStore = useAuthStore();
 
@@ -31,16 +33,9 @@ const router = useRouter();
 function navigateHome () {
     router.push('/')
 }
-function setPageAndSize(page){
-    authStore.page = page;
-    console.log(authStore.page)
-}
-function decrementPage(){
-    authStore.page--;
-}
-function incrementPage(){
-    authStore.page++;
-}
+
+
+
 </script>
 <template>
     <div class="flex flex-col">
@@ -84,13 +79,7 @@ function incrementPage(){
     <BookItem :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
 </div>
-<div class="flex gap-2 items-center justify-center text-center  mt-6">
-<span @click="decrementPage()" class="w-12 flex justify-center items-center h-5 border border-[#413e3e] cursor-pointer  hover:border-2 hover:border-blue-600"><-</span>
-<span  @click="setPageAndSize(index+1)" v-for="(value,index) in Array(10)" class="w-12 flex h-5 border hover:border-2 hover:border-blue-600  border-[#413e3e] cursor-pointer items-center justify-center">
-    {{ index + 1 }}
-</span>
-<span @click="incrementPage()" class="w-12 h-5 flex items-center justify-center border border-[#413e3e] cursor-pointer  hover:border-2 hover:border-blue-600">-></span>
-</div>
+<Pagination></Pagination>
 
 </div>
   

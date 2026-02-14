@@ -2,6 +2,8 @@
 import { useAuthStore } from '@/stores/auth';
 import { ref} from 'vue';
 import BookItem from './BookItem.vue';
+import pagination from './pagination.vue';
+import Pagination from './pagination.vue';
 
 const authStore = useAuthStore();
 const selector = ref("bookList");
@@ -70,5 +72,6 @@ function removeBookSelector(){
             <input v-model="authStore.newBook.bookDetail.description" type="text" placeholder="Description">
             <button @click="addBook()" class="border bg-green-600 text-white w-32 h-12 rounded-lg mt-5 hover:bg-green-700 transition" >ADD BOOK</button>
         </div>
+        <Pagination></Pagination>
     </div>
 </template>

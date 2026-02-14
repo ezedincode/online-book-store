@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
+import { jwtDecode } from 'jwt-decode';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
+  const role = ref('');
   const registerForm = ref({
     username: '',
     password: '',
@@ -31,6 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
   const login = async () => {
     try {
+    
       const response = await fetch(`${API_URL}/auth/authenticate`, {
         method: 'POST',
         headers: {
@@ -45,6 +48,9 @@ export const useAuthStore = defineStore('auth', () => {
 
       resetLoginForm();
       localStorage.setItem('token', data.token);
+      const decoded = jwtDecode(data.token);
+      role.value = decoded.role;
+      console.log(role.value)
       return data;
     } catch (err) {
       throw err
