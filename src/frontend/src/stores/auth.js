@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
-  const role = ref('');
+  const role = ref();
   const registerForm = ref({
     username: '',
     password: '',
@@ -23,7 +23,12 @@ export const useAuthStore = defineStore('auth', () => {
   const updateRegisterField = (field, value) => {
     registerForm.value[field] = value;
   };
-
+const initialize = () => {
+  const token = localStorage.getItem('token');
+   const decoded = jwtDecode(token);
+      role.value = decoded.role;
+      console.log(role.value)
+}
   const resetForm = () => {
     registerForm.value = { username: '', password: '', email: '' };
     error.value = null;
@@ -229,8 +234,10 @@ export const useAuthStore = defineStore('auth', () => {
     page,
     size,
     newBook,
+    role,
 
     updateRegisterField,
+    initialize,
     resetForm,
     resetNewBook,
     register,
