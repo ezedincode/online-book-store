@@ -220,6 +220,46 @@ const initialize = () => {
       isLoading.value = false;
     }
   };
+    const editedBook = ref({
+    id: 0,
+    title: '',
+    author: '',
+    image: '',
+    type: 'Fiction',
+    publishedDate: '',
+    bookDetail: {
+      rating: 0,
+      description: ''
+    },
+    downloads: []
+  })
+  const editBook = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      error.value = "Please login as admin";
+      return;
+    }
+    try {
+      const response = await fetch(`${API_URL}/admin/editBook`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(editedBook.value)
+      });
+
+      const contentType = response.headers.get("content-type");
+      
+       
+
+    } catch (err) {
+      error.value = err.message;
+      throw err
+    } finally {
+      isLoading.value = false;
+    }
+  };
   const bookid = ref(0);
 const deleteBook = async () => {
     const token = localStorage.getItem('token');
@@ -263,7 +303,9 @@ const deleteBook = async () => {
     newBook,
     role,
     bookid,
+    editedBook,
 
+    editBook,
     updateRegisterField,
     deleteBook,
     initialize,
