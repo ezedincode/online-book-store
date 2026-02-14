@@ -32,13 +32,12 @@ public class bookServiceImpl implements bookService {
     @Override
     public boolean addBook(Book book) {
         try {
-
             Book newBook = new Book(book);
-
+        
             if (newBook.getBookDetail() != null) {
-                newBook.getBookDetail().setBook(newBook);
+                newBook.getBookDetail().setBook(null);
             }
-
+            
             repository.save(newBook);
             return true;
         } catch (Exception e) {
@@ -79,26 +78,23 @@ public class bookServiceImpl implements bookService {
                 .build();
     }
 
-
-
     @Override
     public Book searchById(Integer id) {
         return repository.findById(id).orElse(null);
     }
+
     public boolean updateBook(Book updatedBook) {
         Optional<Book> existingBookOpt = repository.findById(updatedBook.getId());
 
         if (existingBookOpt.isPresent()) {
             Book existingBook = existingBookOpt.get();
 
-            // Update book details
             existingBook.setTitle(updatedBook.getTitle());
             existingBook.setAuthor(updatedBook.getAuthor());
             existingBook.setImage(updatedBook.getImage());
             existingBook.setPublishedDate(updatedBook.getPublishedDate());
             existingBook.setType(updatedBook.getType());
 
-            // Ensure bookDetail is properly updated
             if (updatedBook.getBookDetail() != null) {
                 if (existingBook.getBookDetail() == null) {
                     existingBook.setBookDetail(new BookDetail());
@@ -112,12 +108,11 @@ public class bookServiceImpl implements bookService {
         }
         return false;
     }
+
     public String description (Integer id){
-        BookDetail  bookDetail = detailRepository.findById(id).orElse(null);
-        System.out.println("book details: " + bookDetail);
-        if(bookDetail==null){
-            return null;
-        }
-        return bookDetail.getDescription();
+        return repository.findById(id)
+                .map(Book::getBookDetail)
+                .map(BookDetail::getDescription)
+                .orElse(null);
     }
 }

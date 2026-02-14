@@ -61,7 +61,10 @@ public class AuthenticationService {
 //        emailSender.send(
 //                request.getEmail(),
 //                buildEmail(request.getUsername(), link));
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(
+                java.util.Map.of("role", user.getRole().name()),
+                user
+        );
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -80,7 +83,10 @@ public class AuthenticationService {
         System.out.println(user);
         if(user.getStatus().equals(Status.NOTActive) ) {
 
-                var jwtToken = jwtService.generateToken(user);
+                var jwtToken = jwtService.generateToken(
+                        java.util.Map.of("role", user.getRole().name()),
+                        user
+                );
                 return AuthenticationResponse.builder()
                         .token(jwtToken)
                         .build();
