@@ -23,12 +23,24 @@ export const useAuthStore = defineStore('auth', () => {
   const updateRegisterField = (field, value) => {
     registerForm.value[field] = value;
   };
-  const initialize = () => {
-    const token = localStorage.getItem('token');
-    const decoded = jwtDecode(token);
-    role.value = decoded.role;
-    console.log(role.value)
+ const initialize = () => {
+  const token = localStorage.getItem('token')
+
+  if (!token) {
+    role.value = null
+    return
   }
+
+  try {
+    const decoded = jwtDecode(token)
+    role.value = decoded.role || null
+  } catch (err) {
+    console.error('Invalid token')
+    localStorage.removeItem('token')
+    role.value = null
+  }
+}
+
   const resetForm = () => {
     registerForm.value = { username: '', password: '', email: '' };
     error.value = null;
