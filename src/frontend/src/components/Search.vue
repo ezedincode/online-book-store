@@ -1,6 +1,13 @@
-<script></script>
+<script setup>
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
+function navigateBooks(){
+    router.push('/books')
+}
+</script>
 <template>
-  <div class="flex justify-between mr-10 ml-10 mt-5 border-b h-14 border-black">
+  <div class="flex justify-between mr-10 ml-10 mt-5 h-14 ">
     <div class="flex">.
         <svg class="mt-1" width="20px" height="20px" viewBox="-10.5 0 65 65" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
     
@@ -35,7 +42,7 @@
      <svg width="20px" height="20px" viewBox="0 0 48 48" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" fill="#00018B" class="cls-1" d="M19.89,5.5c-4.1,0-5.29.16-7,.84a11.8,11.8,0,0,0-7.12,8.32c-.18.73-.21,1.89-.25,8.58-.06,8.38,0,9.62.53,11.28a9.86,9.86,0,0,0,1.76,3.4,11.46,11.46,0,0,0,6.86,4.38c1.22.22,16.29.28,17.84.07a11.11,11.11,0,0,0,6.76-3.46,11.33,11.33,0,0,0,2.91-5.13c.24-.87.26-1.3.31-6.41a55.69,55.69,0,0,0-.1-6.12,2.37,2.37,0,0,0-1-1.53,10,10,0,0,0-2.06-.22c-1.66-.08-1.85-.11-2.37-.41-.83-.49-1.06-1-1.06-2.44A10.69,10.69,0,0,0,32.49,9.1a12.68,12.68,0,0,0-5.42-3.34c-.48-.15-1.57-.2-5.22-.24l-2,0Zm.75,9.82c3.63,0,3.75,0,4.28.28A1.8,1.8,0,0,1,26,17.4a2,2,0,0,1-1,1.79c-.37.23-.6.25-4.15.27a41.22,41.22,0,0,1-4.2-.1A2.11,2.11,0,0,1,15.78,16c.65-.65.83-.67,4.86-.67ZM24,28.61c7.4,0,7.36,0,8.07.64a2,2,0,0,1-.42,3.25l-1.23.2L24,32.78c-5.62.06-7.22,0-7.51-.17A2.28,2.28,0,0,1,15.26,31a2.34,2.34,0,0,1,.67-1.85c.59-.53.84-.55,8-.55Z"/></svg>
     </div>
   </div>
-  <div class="flex justify-between items-center mr-7 ml-9 mt-5">
+  <!-- <div class="flex justify-between items-center mr-7 ml-9 mt-5">
     <div class=" h-[70px] w-[70px] rounded-full bg-[#cfcdcd] ">
     </div>
     <div>
@@ -66,11 +73,11 @@
             </span>
             WISHLIST</p>
     </div>
-  </div>
-  <div class="h-12 bg-[#173f5f] mt-5 flex justify-center gap-10 text-white items-center">
+  </div> -->
+  <div class="h-12 bg-[#173f5f]  flex justify-center gap-10 text-white items-center">
     <p class="font-bold border-r h-6 pr-[50px] ">HOME</p>
     <p class="border-r h-6 pr-14 ">ABOUT US</p>
-    <p class="border-r h-6 pr-14 ">BOOKS</p>
+    <p @click="navigateBooks()" class="border-r h-6 pr-14 hover:cursor-pointer ">BOOKS</p>
     <p class="border-r h-6 pr-14 ">NEW RELEASE</p>
     <p class="border-r h-6 pr-14 ">CONTACT US</p>
     <p>BLOG</p>

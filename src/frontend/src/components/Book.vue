@@ -41,7 +41,11 @@ function navigateHome () {
     <div class="flex flex-col">
         <div class="fixed bg-white  transition-transform duration-300 top-0 left-0 w-full z-50  flex flex-col" :class="showHeader ? 'translate-y-0' : '-translate-y-full'">
         <div class="flex justify-between ml-7 mt-8 mr-7 items-center">
-            <div><p @click="navigateHome" class="text-[#00008B] font-bold cursor-pointer ">Home</p></div>
+            <div @click="navigateHome" class="cursor-pointer ml-5">
+                <svg width="20px" height="20px" viewBox="0 0 16 16" fill="#00008B" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill="#00008B"/>
+                </svg>
+            </div>
             <input v-model="authStore.keyword" type="text" class="pl-10 w-[40vw] outline-none py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
             
             <div class="flex gap-5 ">
@@ -67,7 +71,7 @@ function navigateHome () {
         <div class="h-12 bg-[#173f5f] mt-5 flex justify-center gap-10 text-white items-center">
     <p class="font-bold border-r h-6 pr-[50px] ">HOME</p>
     <p class="border-r h-6 pr-14 ">ABOUT US</p>
-    <p class="border-r h-6 pr-14 ">BOOKS</p>
+    <p  class="border-r h-6 pr-14 ">BOOKS</p>
     <p class="border-r h-6 pr-14 ">NEW RELEASE</p>
     <p class="border-r h-6 pr-14 ">CONTACT US</p>
     <p>BLOG</p>
