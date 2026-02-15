@@ -9,9 +9,13 @@ const authStore = useAuthStore();
 async function login(){
     try{
         const data = await authStore.login();
-        console.log(data)
+        console.log(data.value);
+
+        if(data.value == "Admin"){
+            router.push('/admin')
+        }
+        else if (data.value == 'User'){router.push('/books');}
         
-        router.push('/signup');
     }catch (e) {
         console.log("error login")
     }

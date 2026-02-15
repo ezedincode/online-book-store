@@ -56,7 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
       const decoded = jwtDecode(data.token);
       role.value = decoded.role;
       console.log(role.value)
-      return data;
+      return role;
     } catch (err) {
       throw err
     } finally {

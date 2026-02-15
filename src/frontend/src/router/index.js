@@ -11,17 +11,20 @@ const router = createRouter({
   routes: [
     { path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: { requiresAuth:false}
     },
     {
       path:'/signup',
       name: 'signup',
-      component: signUp
+      component: signUp,
+      meta: { requiresAuth:false}
     },
     {
       path:'/books',
       name: 'books',
-      component: Book
+      component: Book,
+      meta: { requiresAuth:true , role: ['User' , 'Admin']}
     },
     {
       path:'/bookitem',
@@ -32,7 +35,7 @@ const router = createRouter({
       path:'/admin',
       name: 'admin',
       component: Admin,
-      meta: {role: 'Admin'}
+      meta: { requiresAuth:true , role: ['Admin']}
     },
     {
       path : '/unauthorized',
@@ -42,14 +45,19 @@ const router = createRouter({
   ],
 })
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore()
-  console.log(authStore.role)
-  if(!authStore.role){
+  const authStore = useAuthStore();
+   if(!authStore.role){
     authStore.initialize();
   }
-  if (to.meta.role && to.meta.role !== authStore.role) {
+    if (!to.meta.requiresAuth) {
+    return next()
+  }
+  if (to.meta.role && !to.meta.role.includes(authStore.role)) {
     return next('/unauthorized')
   }
+  console.log(authStore.role)
+ 
+  
 
   next()
 })
