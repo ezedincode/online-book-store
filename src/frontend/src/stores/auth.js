@@ -23,12 +23,12 @@ export const useAuthStore = defineStore('auth', () => {
   const updateRegisterField = (field, value) => {
     registerForm.value[field] = value;
   };
-const initialize = () => {
-  const token = localStorage.getItem('token');
-   const decoded = jwtDecode(token);
-      role.value = decoded.role;
-      console.log(role.value)
-}
+  const initialize = () => {
+    const token = localStorage.getItem('token');
+    const decoded = jwtDecode(token);
+    role.value = decoded.role;
+    console.log(role.value)
+  }
   const resetForm = () => {
     registerForm.value = { username: '', password: '', email: '' };
     error.value = null;
@@ -38,7 +38,7 @@ const initialize = () => {
   };
   const login = async () => {
     try {
-    
+
       const response = await fetch(`${API_URL}/auth/authenticate`, {
         method: 'POST',
         headers: {
@@ -67,59 +67,57 @@ const initialize = () => {
   const page = ref('1');
   const size = ref('10');
 
-  watch(keyword, () => {
-    page.value = '1'
-  });
-
-  watch([keyword, page], async ([newKeyword, newPage]) => {
-
+  const fetchBooks = async () => {
     books.value = null;
     const token = localStorage.getItem('token');
     if (!token) {
       error.value = "Please login to search";
       return;
     }
-    console.log(token);
+
     let response = null;
     try {
-
-      if (newKeyword == '') {
-        response = await fetch(`${API_URL}/home/bookList?page=${newPage}&size=${size.value}`, {
-
+      if (keyword.value == '') {
+        response = await fetch(`${API_URL}/home/bookList?page=${page.value}&size=${size.value}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         });
-      }
-      else {
-        response = await fetch(`${API_URL}/home/search?page=${newPage}&size=${size.value}`, {
+      } else {
+        response = await fetch(`${API_URL}/home/search?page=${page.value}&size=${size.value}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ keyword: newKeyword })
+          body: JSON.stringify({ keyword: keyword.value })
         });
       }
-      books.value = await response.json();
+
+      const data = await response.json();
       if (!response.ok) {
         books.value = null;
-
+        error.value = data.message || 'Failed to fetch books';
+      } else {
+        books.value = data;
       }
-
-
-
     } catch (err) {
       error.value = err.message;
-      throw err
-      console.error('Registration error:', err);
+      console.error('Fetch books error:', err);
     } finally {
       isLoading.value = false;
     }
-  },
-    { immediate: true })
+  };
+
+  watch(keyword, () => {
+    page.value = '1'
+  });
+
+  watch([keyword, page], async () => {
+    await fetchBooks();
+  }, { immediate: true })
 
 
   const register = async () => {
@@ -206,6 +204,7 @@ const initialize = () => {
           throw new Error(data.message || 'Failed to add book');
         }
         resetNewBook();
+        await fetchBooks();
         return data;
       } else {
         const text = await response.text();
@@ -220,7 +219,7 @@ const initialize = () => {
       isLoading.value = false;
     }
   };
-    const editedBook = ref({
+  const editedBook = ref({
     id: 0,
     title: '',
     author: '',
@@ -250,8 +249,19 @@ const initialize = () => {
       });
 
       const contentType = response.headers.get("content-type");
-      
-       
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to edit book');
+        }
+        await fetchBooks();
+        return data;
+      } else {
+        const text = await response.text();
+        if (!response.ok) throw new Error(text || 'Failed to edit book');
+        await fetchBooks();
+        return text;
+      }
 
     } catch (err) {
       error.value = err.message;
@@ -261,7 +271,7 @@ const initialize = () => {
     }
   };
   const bookid = ref(0);
-const deleteBook = async () => {
+  const deleteBook = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
       error.value = "Please login as admin";
@@ -274,14 +284,15 @@ const deleteBook = async () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({'id' : bookid.value})
+        body: JSON.stringify({ 'id': bookid.value })
       });
-       const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to delete book');
-        }
-         return data;
-      }catch (err) {
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to delete book');
+      }
+      await fetchBooks();
+      return data;
+    } catch (err) {
       error.value = err.message;
       throw err
     } finally {

@@ -11,6 +11,7 @@ async function addBook(){
     try {
         await authStore.addBook();
         alert('Book added successfully!');
+        selector.value = 'bookList';
     } catch (err) {
         alert('Error adding book: ' + err.message);
     }
@@ -25,10 +26,15 @@ function listBookSelector(){
 function removeBookSelector(){
     selector.value = 'removeBook';
 }
-function deleteBook(id) {
+async function deleteBook(id) {
     console.log(id)
     authStore.bookid = id;
-    authStore.deleteBook();
+    try {
+        await authStore.deleteBook();
+        alert('Book deleted successfully!');
+    } catch (err) {
+        alert('Error deleting book: ' + err.message);
+    }
 }
 const editID = ref(0);
 function editBookselector(id){
@@ -37,10 +43,11 @@ function editBookselector(id){
 }
 async function editBook() {
   try {
-        authStore.editedBook.id =editID;
+        authStore.editedBook.id = editID.value;
         console.log(authStore.editedBook.id)
         await authStore.editBook();
         alert('Book edited successfully!');
+        selector.value = 'bookList';
     } catch (err) {
         alert('Error editing book: ' + err.message);
     }

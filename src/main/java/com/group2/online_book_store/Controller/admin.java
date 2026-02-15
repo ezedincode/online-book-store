@@ -83,9 +83,9 @@ public class admin {
         boolean isUpdated = bookService.updateBook(updatedBook);
 
         if (isUpdated) {
-            return ResponseEntity.ok("Book updated successfully");
+            return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.badRequest().body("Failed to update book");
+            return ResponseEntity.badRequest().build();
         }
     }
 }
