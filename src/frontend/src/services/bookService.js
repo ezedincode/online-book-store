@@ -31,3 +31,6 @@ export const deleteBookApi = (bookid) => {
         data: {'id': bookid}
     })
 }
+export const searchByTypeApi = (type) => {
+    return api.get(`/home/type`,type)
+}

@@ -46,8 +46,19 @@ function navigateHome () {
                 <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill="#00008B"/>
                 </svg>
             </div>
-            <input v-model="authStore.keyword" type="text" class="pl-10 w-[40vw] outline-none py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
-            
+            <div class="flex"> 
+                <input v-model="authStore.keyword" type="text" class="pl-10 w-[40vw] outline-none rounded-r-[0px] py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
+                <select v-model="authStore.booktype" class=" border text-white [&>*]:bg-white [&>*]:text-[#00008B] h-12 rounded-lg pl-6 bg-[#00008B] rounded-l-[0px]">
+                <option value="All" >All</option>
+                <option value="Academic">Academic</option>
+                <option value="Biography">Biography</option>
+                <option value="Children">Children</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Technology">Technology</option>
+                <option value="Art">Art</option>
+                <option value="NonFiction">NonFiction</option>
+            </select>
+            </div>
             <div class="flex gap-5 ">
         <p class="text-[13px] font-bold flex gap-2 text-[#00008B] border-r border-[#a9a9b2] h-5 pr-2">
             <span class="mt-0.5"><svg fill="#00008B" width="17px" height="17px" viewBox="0 0 32 32" id="Outlined" xmlns="http://www.w3.org/2000/svg"><title/> <g id="Fill"> <path d="M24,17H8a5,5,0,0,0-5,5v7H5V22a3,3,0,0,1,3-3H24a3,3,0,0,1,3,3v7h2V22A5,5,0,0,0,24,17Z"/> <path d="M16,15a6,6,0,1,0-6-6A6,6,0,0,0,16,15ZM16,5a4,4,0,1,1-4,4A4,4,0,0,1,16,5Z"/> </g>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
-import { fetchBookApi,deleteBookApi ,loginApi,registerApi,addBookApi,editBookApi} from '@/services/bookService';
+import { fetchBookApi,deleteBookApi ,loginApi,registerApi,addBookApi,editBookApi,searchByTypeApi} from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -69,6 +69,7 @@ export const useAuthStore = defineStore('auth', () => {
   role.value = decoded.role;
 };
   const books = ref([]);
+  const booktype = ref('All');
   const page = ref('1');
   const size = ref('10');
 const fetchBooks = async () => {
@@ -82,8 +83,19 @@ const fetchBooks = async () => {
       page.value,
       size.value
     );
+    if(booktype.value === 'All'){
+      books.value = response.data;
+       console.log(books.value[0].type);
+    }
+    else{
+      books.value = response.data;
+      console.log(booktype.value);
+      console.log(books);
+      
+      books.value = books.value.filter(book => book.type === booktype.value)
 
-    books.value = response.data;
+    }
+    
 
   } catch (err) {
     error.value = err.response?.data?.message || err.message;
@@ -98,7 +110,7 @@ const fetchBooks = async () => {
     page.value = '1'
   });
 
-  watch([keyword, page], async () => {
+  watch([keyword, page,booktype], async () => {
     await fetchBooks();
   }, { immediate: true })
 
@@ -184,6 +196,20 @@ const register = async () => {
       throw err.response?.data?.message || err.message;
     } 
   };
+  const type = ref({
+    type : ''
+  })
+  const searchBy = async () => {
+    try{
+      const response = await searchByTypeApi(type.value);
+      books.value =  response.data;
+    } catch (err) {
+    error.value = err.response?.data?.message || err.message;
+  }
+  }
+  
+
+
 
   return {
 
@@ -200,6 +226,8 @@ const register = async () => {
     role,
     bookid,
     editedBook,
+    booktype,
+    type,
 
     editBook,
     updateRegisterField,
@@ -209,6 +237,7 @@ const register = async () => {
     resetNewBook,
     register,
     login,
+    searchBy,
     addBook
   };
 });
