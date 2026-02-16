@@ -17,3 +17,17 @@ export const fetchBookApi = (keyword,page,size) => {
 export const loginApi = (loginForm) => {
         return api.post(`/auth/authenticate`,loginForm);
 }
+export const registerApi = (registerForm) => {
+    return api.post(`/auth/register`,registerForm);
+}
+export const addBookApi = (newBook)=> {
+    return api.post(`/admin/addBook`,newBook);
+}
+export const editBookApi = (editedBook) => {
+    return api.put(`/admin/editBook`,editedBook);
+}
+export const deleteBookApi = (bookid) => {
+    return api.delete(`/admin/removeBook`, {
+        data: {'id': bookid}
+    })
+}

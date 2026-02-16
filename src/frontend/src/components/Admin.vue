@@ -10,7 +10,6 @@ const selector = ref("bookList");
 async function addBook(){
     try {
         await authStore.addBook();
-        alert('Book added successfully!');
         selector.value = 'bookList';
     } catch (err) {
         alert('Error adding book: ' + err.message);
@@ -29,12 +28,8 @@ function removeBookSelector(){
 async function deleteBook(id) {
     console.log(id)
     authStore.bookid = id;
-    try {
         await authStore.deleteBook();
         alert('Book deleted successfully!');
-    } catch (err) {
-        alert('Error deleting book: ' + err.message);
-    }
 }
 const editID = ref(0);
 function editBookselector(id){

@@ -9,12 +9,13 @@
     const showPassword = ref(false);
     const is_registered = ref(true);
     async function submit(){
-        try{
-        const data = await authStore.register();
-        route.push('/');
-        }catch (e){
-           console.log("error")
-        }
+        await authStore.register();
+       if(authStore.role === 'Admin'){
+        route.push('/admin');
+       }
+       else{
+        route.push('/books')
+       }
     }
 </script>
 

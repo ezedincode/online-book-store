@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
-import { fetchBookApi ,loginApi} from '@/services/bookService';
+import { fetchBookApi,deleteBookApi ,loginApi,registerApi,addBookApi,editBookApi} from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -68,14 +68,9 @@ export const useAuthStore = defineStore('auth', () => {
   const decoded = jwtDecode(token);
   role.value = decoded.role;
 };
-
-
   const books = ref([]);
   const page = ref('1');
   const size = ref('10');
-
-
-
 const fetchBooks = async () => {
   books.value = null;
   error.value = null;
@@ -108,40 +103,21 @@ const fetchBooks = async () => {
   }, { immediate: true })
 
 
-  const register = async () => {
+const register = async () => {
     isLoading.value = true;
     error.value = null;
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registerForm.value)
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
-
+      const response = await registerApi(registerForm.value);
+      const {token }  = response.data;
+      setToken(token);
       isRegistered.value = true;
       resetForm();
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-      }
-
-      return data;
-
+      return role;
     } catch (err) {
-      error.value = err.message;
-      throw err
-      console.error('Registration error:', err);
-    } finally {
-      isLoading.value = false;
+       throw err.response?.data?.message || err.message;
     }
   };
+
   const newBook = ref({
     title: '',
     author: '',
@@ -170,41 +146,12 @@ const fetchBooks = async () => {
   }
 
   const addBook = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      error.value = "Please login as admin";
-      return;
-    }
-    try {
-      const response = await fetch(`${API_URL}/admin/addBook`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(newBook.value)
-      });
-
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to add book');
-        }
+      try{
+        const response = await addBookApi(newBook.value);
         resetNewBook();
         await fetchBooks();
-        return data;
-      } else {
-        const text = await response.text();
-        console.error("Server Error Response:", text);
-        throw new Error(`Server returned error ${response.status}. See console for details.`);
-      }
-
     } catch (err) {
-      error.value = err.message;
-      throw err
-    } finally {
-      isLoading.value = false;
+       throw err.response?.data?.message || err.message;
     }
   };
   const editedBook = ref({
@@ -221,71 +168,21 @@ const fetchBooks = async () => {
     downloads: []
   })
   const editBook = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      error.value = "Please login as admin";
-      return;
-    }
     try {
-      const response = await fetch(`${API_URL}/admin/editBook`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(editedBook.value)
-      });
-
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to edit book');
-        }
+      await editBookApi( editedBook.value);
         await fetchBooks();
-        return data;
-      } else {
-        const text = await response.text();
-        if (!response.ok) throw new Error(text || 'Failed to edit book');
-        await fetchBooks();
-        return text;
-      }
-
-    } catch (err) {
-      error.value = err.message;
-      throw err
-    } finally {
-      isLoading.value = false;
+      } catch (err) {
+      throw err.response?.data?.message || err.message;
     }
   };
   const bookid = ref(0);
   const deleteBook = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      error.value = "Please login as admin";
-      return;
-    }
     try {
-      const response = await fetch(`${API_URL}/admin/removeBook`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ 'id': bookid.value })
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to delete book');
-      }
+      const response  = await deleteBookApi(bookid.value);
       await fetchBooks();
-      return data;
     } catch (err) {
-      error.value = err.message;
-      throw err
-    } finally {
-      isLoading.value = false;
-    }
+      throw err.response?.data?.message || err.message;
+    } 
   };
 
   return {
