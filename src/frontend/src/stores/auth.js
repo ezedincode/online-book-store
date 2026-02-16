@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
+import { fetchBookApi ,loginApi} from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -50,78 +51,53 @@ export const useAuthStore = defineStore('auth', () => {
   };
   const login = async () => {
     try {
-
-      const response = await fetch(`${API_URL}/auth/authenticate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(LoginForm.value)
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
-      }
-
+      const response = await loginApi(
+        LoginForm.value
+      )
+      const {token}  = response.data;
+      setToken(token)
       resetLoginForm();
-      localStorage.setItem('token', data.token);
-      const decoded = jwtDecode(data.token);
-      role.value = decoded.role;
       console.log(role.value)
-      return role;
+      return role
     } catch (err) {
-      throw err
-    } finally {
+       throw err.response?.data?.message || err.message;
     }
   };
+  const setToken = (token) => {
+  localStorage.setItem('token', token);
+  const decoded = jwtDecode(token);
+  role.value = decoded.role;
+};
+
 
   const books = ref([]);
   const page = ref('1');
   const size = ref('10');
 
-  const fetchBooks = async () => {
+
+
+const fetchBooks = async () => {
+  books.value = null;
+  error.value = null;
+  isLoading.value = true;
+
+  try {
+    const response = await fetchBookApi(
+      keyword.value,
+      page.value,
+      size.value
+    );
+
+    books.value = response.data;
+
+  } catch (err) {
+    error.value = err.response?.data?.message || err.message;
     books.value = null;
-    const token = localStorage.getItem('token');
-    if (!token) {
-      error.value = "Please login to search";
-      return;
-    }
+  } finally {
+    isLoading.value = false;
+  }
+};
 
-    let response = null;
-    try {
-      if (keyword.value == '') {
-        response = await fetch(`${API_URL}/home/bookList?page=${page.value}&size=${size.value}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-      } else {
-        response = await fetch(`${API_URL}/home/search?page=${page.value}&size=${size.value}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({ keyword: keyword.value })
-        });
-      }
-
-      const data = await response.json();
-      if (!response.ok) {
-        books.value = null;
-        error.value = data.message || 'Failed to fetch books';
-      } else {
-        books.value = data;
-      }
-    } catch (err) {
-      error.value = err.message;
-      console.error('Fetch books error:', err);
-    } finally {
-      isLoading.value = false;
-    }
-  };
 
   watch(keyword, () => {
     page.value = '1'
