@@ -17,8 +17,11 @@ public interface bookService {
 
      Page<Book> searchBooks(String keyword, int page , int size);
 
-     List<Book> searchByType(Type type);
-     String getBookImage(Integer bookId);
+       Page<Book> searchByType(Type type, int page, int size);
+
+       Page<Book> searchByTypeAndKeyword(Type type, String keyword, int page, int size);
+
+      String getBookImage(Integer bookId);
 
      Page<Book> getAllBooksInDescendingPriorityOrder(int page,int size);
      bookDTO getBookDTO(Book book);

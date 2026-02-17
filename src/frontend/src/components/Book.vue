@@ -48,7 +48,7 @@ function navigateHome () {
             </div>
             <div class="flex"> 
                 <input v-model="authStore.keyword" type="text" class="pl-10 w-[40vw] outline-none rounded-r-[0px] py-2 border rounded-[20px] bg-[#ededf0]" placeholder="Search Book">
-                <select v-model="authStore.booktype" class=" border text-white [&>*]:bg-white [&>*]:text-[#00008B] h-12 rounded-lg pl-6 bg-[#00008B] rounded-l-[0px]">
+                <select v-model="authStore.type" class=" border text-white [&>*]:bg-white [&>*]:text-[#00008B] h-12 rounded-lg pl-6 bg-[#00008B] rounded-l-[0px]">
                 <option value="All" >All</option>
                 <option value="Academic">Academic</option>
                 <option value="Biography">Biography</option>

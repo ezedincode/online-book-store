@@ -53,8 +53,15 @@ public class bookServiceImpl implements bookService {
     }
 
     @Override
-    public List<Book> searchByType(Type type) {
-        return repository.findByType(type);
+    public Page<Book> searchByType(Type type, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("id").ascending());
+        return repository.findByType(type, pageable);
+    }
+
+    @Override
+    public Page<Book> searchByTypeAndKeyword(Type type, String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("id").ascending());
+        return repository.findByTypeAndTitleContainingIgnoreCase(type, keyword, pageable);
     }
 
     public String getBookImage(Integer bookId) {

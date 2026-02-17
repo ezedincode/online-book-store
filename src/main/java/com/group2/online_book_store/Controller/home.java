@@ -76,20 +76,59 @@ public class home {
         }
         return ResponseEntity.badRequest().body(null);
     }
-    @GetMapping("/type")
-    public ResponseEntity<List<bookDTO>> searchByType(@RequestBody Type type) {
+    @PostMapping("/type")
+    public ResponseEntity<List<bookDTO>> searchByType(
+            @RequestBody Type type,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
         if (type != null) {
-            List<Book> books = bookservice.searchByType(type);
+            Page<Book> books = bookservice.searchByType(type, page, size);
             if (books.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
-            List<bookDTO> bookDTOs= books.stream()
-                    .map(this::toBookDTO)
-                    .toList();
+            List<bookDTO> bookDTOs = new ArrayList<>();
+            for (Book book : books) {
+                bookDTO bookDTO = toBookDTO(book);
+                bookDTO.setDescription(getDescription(book.getId()));
+                bookDTOs.add(bookDTO);
+            }
             return ResponseEntity.ok(bookDTOs);
         }
         return ResponseEntity.badRequest().body(null);
     }
+
+    @PostMapping("/searchByTypeAndKeyword")
+    public ResponseEntity<List<bookDTO>> searchByTypeAndKeyword(
+            @RequestBody Map<String, Object> request,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        String typeStr = (String) request.get("type");
+        String keyword = (String) request.get("keyword");
+        
+        if (typeStr != null && keyword != null) {
+            try {
+                Type type = Type.valueOf(typeStr);
+                Page<Book> books = bookservice.searchByTypeAndKeyword(type, keyword, page, size);
+                
+                if (books.isEmpty()) {
+                    return ResponseEntity.noContent().build();
+                }
+                
+                List<bookDTO> bookDTOs = new ArrayList<>();
+                for (Book book : books) {
+                    bookDTO bookDTO = toBookDTO(book);
+                    bookDTO.setDescription(getDescription(book.getId()));
+                    bookDTOs.add(bookDTO);
+                }
+                return ResponseEntity.ok(bookDTOs);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(null);
+            }
+        }
+        return ResponseEntity.badRequest().body(null);
+    }
+
     @PostMapping("/getDetail")
     public ResponseEntity<BookDetail> getDetail(@RequestBody Map<String, Integer> request) {
         int id = request.get("id"); // Extract `id` from the request body

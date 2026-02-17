@@ -31,6 +31,22 @@ export const deleteBookApi = (bookid) => {
         data: {'id': bookid}
     })
 }
-export const searchByTypeApi = (type) => {
-    return api.get(`/home/type`,type)
-}
+
+export const searchByTypeApi = (type,page,size) => {
+  return api.post(`/home/type`, type, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    params: { page,size}
+  });
+};
+ export const searchbyTitleAndKeywordApi = (searchBody,page,size) => {
+
+    return api.post(`/home/searchByTypeAndKeyword`,searchBody , {
+        params: {
+            page,
+            size
+        }
+    })
+
+ }
