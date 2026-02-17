@@ -39,11 +39,11 @@ function emitDelete(id){
 <template>
     <div class="flex flex-col md:flex-row bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 group mb-8 mx-4 md:mx-12 md:h-72">
 
-        <div class="w-full md:w-48 lg:w-56 h-64 md:h-full flex-shrink-0 overflow-hidden relative bg-gray-50">
+        <div class="w-full md:w-48 lg:w-56 h-64 md:h-full flex-shrink-0 overflow-hidden relative bg-gray-50 flex items-center justify-center">
             <img 
                 :src="props.image" 
                 :alt="props.title"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                class="w-full h-full object-fill group-hover:scale-105 transition-transform duration-500"
             >
             <div class="absolute top-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-indigo-600 shadow-sm border border-indigo-50">
                 {{ props.type }}
@@ -56,6 +56,14 @@ function emitDelete(id){
                     <h2 class="text-xl md:text-2xl font-bold text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors truncate">
                         {{ props.title }}
                     </h2>
+                </div>
+                
+                <!-- Star Rating -->
+                <div class="flex items-center gap-1">
+                    <svg v-for="i in 5" :key="i" class="w-4 h-4" :class="i <= 4 ? 'text-amber-400 fill-current' : 'text-gray-300'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <span class="text-xs font-semibold text-slate-400 ml-1">4.0</span>
                 </div>
                 
                 <div class="flex flex-col gap-1">

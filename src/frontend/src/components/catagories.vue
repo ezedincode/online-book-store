@@ -14,7 +14,7 @@ function selectCategory(type) {
     <div>
         <div class="h-[732px] m-12 grid grid-cols-3 grid-rows-2 gap-6 [&>*>*]:rounded-[10px] [&>*>*>h2]:z-10">
             <div @click="selectCategory('Fiction')" class="relative cursor-pointer group">
-                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\higher.jpg" alt="">
+                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\fiction_category.png" alt="">
                 <div class="absolute inset-0 flex justify-center items-end bg-black/40 group-hover:bg-black/20 transition-all duration-300 rounded-[10px]">
                     <h2 class="text-white text-3xl font-bold mb-6">Fiction</h2>
                 </div>
@@ -28,28 +28,28 @@ function selectCategory(type) {
             </div>
 
             <div @click="selectCategory('Academic')" class="relative cursor-pointer group">
-                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\managment.jpg" alt="">
+                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\academic_category.png" alt="">
                 <div class="absolute inset-0 flex justify-center items-end bg-black/40 group-hover:bg-black/20 transition-all duration-300 rounded-[10px]">
                     <h2 class="text-white text-3xl font-bold mb-6">Academic</h2>
                 </div>
             </div>
 
             <div @click="selectCategory('Technology')" class="relative cursor-pointer group">
-                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\finance.jpg" alt="">
+                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\technology_category.png" alt="">
                 <div class="absolute inset-0 flex justify-center items-end bg-black/40 group-hover:bg-black/20 transition-all duration-300 rounded-[10px]">
                     <h2 class="text-white text-3xl font-bold mb-6 z-10">Technology</h2>
                 </div>
             </div>
 
             <div @click="selectCategory('Biography')" class="relative cursor-pointer group">
-                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\engin.jpg" alt="">
+                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\biography_category.png" alt="">
                 <div class="absolute inset-0 flex justify-center items-end bg-black/40 group-hover:bg-black/20 transition-all duration-300 rounded-[10px]">
                     <h2 class="text-white text-3xl font-bold mb-6">Biography</h2>
                 </div>
             </div>
 
             <div @click="selectCategory('Children')" class="relative cursor-pointer group">
-                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\commece.jpg" alt="">
+                <img class="object-cover w-full h-full rounded-[10px] transition-transform duration-500 group-hover:scale-110" src="\src\assets\children_category.png" alt="">
                 <div class="absolute inset-0 flex justify-center items-end bg-black/40 group-hover:bg-black/20 transition-all duration-300 rounded-[10px]">
                     <h2 class="text-white text-3xl font-bold mb-6">Children</h2>
                 </div>

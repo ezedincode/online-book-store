@@ -19,11 +19,41 @@ function setPageAndSize(page){
 </script>
 
 <template>
-    <div class="flex gap-2 mb-12 items-center justify-center text-center  mt-6">
-<span @click="decrementPage()" class="w-12 flex justify-center items-center h-5 border border-[#413e3e] cursor-pointer  hover:border-2 hover:border-blue-600"><-</span>
-<span  @click="setPageAndSize(index+1)" v-for="(value,index) in Array(10)" class="w-12 flex h-5 border hover:border-2 hover:border-blue-600  border-[#413e3e] cursor-pointer items-center justify-center">
-    {{ index + 1 }}
-</span>
-<span @click="incrementPage()" class="w-12 h-5 flex items-center justify-center border border-[#413e3e] cursor-pointer  hover:border-2 hover:border-blue-600">-></span>
-</div>
+    <div class="flex flex-wrap gap-2 mb-16 items-center justify-center mt-10 px-4">
+
+        <button 
+            @click="decrementPage()" 
+            :disabled="Number(authStore.page) <= 1"
+            class="w-12 h-12 flex justify-center items-center rounded-2xl border-2 border-slate-100 bg-white text-slate-400 hover:border-[#ed553b] hover:text-[#ed553b] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 shadow-sm group"
+            title="Previous Page"
+        >
+            <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+
+             <button 
+            v-for="i in 5" 
+            :key="i"
+            @click="setPageAndSize(i)" 
+            class="w-12 h-12 flex items-center justify-center rounded-2xl border-2 font-bold transition-all duration-300 shadow-sm"
+            :class="Number(authStore.page) === i 
+                ? 'bg-[#173f5f] border-[#ed173f5f553b] text-white shadow-lg shadow-[#ed553b]/20 scale-110 z-10' 
+                : 'bg-white border-slate-100 text-slate-600 hover:border-[#173f5f] hover:text-[#173f5f] hover:shadow-md'"
+        >
+            {{ i }}
+        </button>
+
+        <div class="w-8 h-12 flex items-center justify-center text-slate-300 font-bold">...</div>
+
+        <button 
+            @click="incrementPage()" 
+            class="w-12 h-12 flex justify-center items-center rounded-2xl border-2 border-slate-100 bg-white text-slate-400 hover:border-[#ed553b] hover:text-[#ed553b] transition-all duration-300 shadow-sm group"
+            title="Next Page"
+        >
+            <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    </div>
 </template>

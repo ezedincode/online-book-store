@@ -88,15 +88,46 @@ function navigateHome () {
       <router-link to="/blog" class="hover:text-indigo-200 transition-colors uppercase">Blog</router-link>
     </div>
   </div>
-  <div class="pt-[140px] mr-12 flex flex-col  gap-3 shrink-0">
-  <div class=" mt-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
+  <div class="pt-[140px] px-6 md:px-12 flex flex-col gap-3 min-h-[400px]">
+    <!-- Books List -->
+    <template v-if="authStore.books && authStore.books.length > 0">
+      <div class="mt-3 [&>*]:rounded-[10px]" v-for="book in authStore.books" :key="book.id"> 
+        <BookItem 
+          :id="book.id"
+          :description="book.description" 
+          :title="book.title" 
+          :author="book.author" 
+          :image="book.image" 
+          :published-date="book.publishedDate" 
+          :type="book.type"
+          :role="authStore.role"
+        ></BookItem>
+      </div>
+      <Pagination></Pagination>
+    </template>
 
-    <BookItem  :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
-   
-</div>
-<Pagination></Pagination>
+    <!-- Empty State -->
+    <div v-else-if="!authStore.isLoading" class="flex flex-col items-center justify-center py-20 px-4 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 mt-8">
+      <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
+        <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+        </svg>
+      </div>
+      <h3 class="text-2xl font-serif font-bold text-slate-800 mb-2">No books found</h3>
+      <p class="text-slate-500 max-w-md mx-auto leading-relaxed">
+        We couldn't find any volumes matching your current selection. <br>
+        Try adjusting your keywords or exploring a different category.
+      </p>
+      <button @click="authStore.keyword = ''; authStore.type = 'All'" class="mt-8 px-6 py-2 bg-[#173f5f] text-white rounded-xl font-bold hover:bg-indigo-600 transition-colors">
+        Clear all filters
+      </button>
+    </div>
 
-</div>
+    <!-- Loading State (Optional, but good for UX) -->
+    <div v-else class="flex justify-center py-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
+    </div>
+  </div>
   
     </div>
 </template>
