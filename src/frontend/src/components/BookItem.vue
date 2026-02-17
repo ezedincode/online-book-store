@@ -37,35 +37,67 @@ function emitDelete(id){
 </script>
 
 <template>
-    <div class=" flex h-[40vh] ml-12 overflow-hidden mr-12">
-        <div class="w-[402px] h-full">
-            <img class="h-full rounded-lg" :src="props.image">
-        </div>
-        <div class="w-[600px] h-full flex justify-between">
-            <div>
-            <h1 class="text-[25px] text-[#173f5f]">{{ props.title }}</h1>
-            <p>by {{ props.author }}</p>
-            <p>published Date: {{ props.publishedDate }}</p>
-            <p class="line-clamp-3 text-[#a9a6a6] mt-4">description :{{ props.description }}</p>
-            <button class=" mt-10 gap-2 justify-center items-center rounded-[10px] h-12 flex border w-[197px] border-[#173f5f]">VIEW MORE <img class="h-[13px] w-[15px]" src="\src\assets\icons8-arrow-right-24.png" alt=""></button>
-            </div>
-            <div v-if="props.role==='Admin'" class="flex flex-col gap-5 justify-center items-end">
-                <div @click="emitDelete(props.id)" class="border-[2px] border-red-600 w-32 hover:cursor-pointer h-10 flex items-center justify-center gap-2">
-                    <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M831.24 280.772c5.657 0 10.24-4.583 10.24-10.24v-83.528c0-5.657-4.583-10.24-10.24-10.24H194.558a10.238 10.238 0 00-10.24 10.24v83.528c0 5.657 4.583 10.24 10.24 10.24H831.24zm0 40.96H194.558c-28.278 0-51.2-22.922-51.2-51.2v-83.528c0-28.278 22.922-51.2 51.2-51.2H831.24c28.278 0 51.2 22.922 51.2 51.2v83.528c0 28.278-22.922 51.2-51.2 51.2z"/><path d="M806.809 304.688l-58.245 666.45c-.544 6.246-6.714 11.9-12.99 11.9H290.226c-6.276 0-12.447-5.654-12.99-11.893L218.99 304.688c-.985-11.268-10.917-19.604-22.185-18.619s-19.604 10.917-18.619 22.185l58.245 666.45c2.385 27.401 26.278 49.294 53.795 49.294h445.348c27.517 0 51.41-21.893 53.796-49.301l58.244-666.443c.985-11.268-7.351-21.201-18.619-22.185s-21.201 7.351-22.185 18.619zM422.02 155.082V51.3c0-5.726 4.601-10.342 10.24-10.342h161.28c5.639 0 10.24 4.617 10.24 10.342v103.782c0 11.311 9.169 20.48 20.48 20.48s20.48-9.169 20.48-20.48V51.3c0-28.316-22.908-51.302-51.2-51.302H432.26c-28.292 0-51.2 22.987-51.2 51.302v103.782c0 11.311 9.169 20.48 20.48 20.48s20.48-9.169 20.48-20.48z"/><path d="M496.004 410.821v460.964c0 11.311 9.169 20.48 20.48 20.48s20.48-9.169 20.48-20.48V410.821c0-11.311-9.169-20.48-20.48-20.48s-20.48 9.169-20.48 20.48zm-192.435 1.767l39.936 460.964c.976 11.269 10.903 19.612 22.171 18.636s19.612-10.903 18.636-22.171l-39.936-460.964c-.976-11.269-10.903-19.612-22.171-18.636s-19.612 10.903-18.636 22.171zm377.856-3.535l-39.936 460.964c-.976 11.269 7.367 21.195 18.636 22.171s21.195-7.367 22.171-18.636l39.936-460.964c.976-11.269-7.367-21.195-18.636-22.171s-21.195 7.367-22.171 18.636z"/></svg>
-                    <p>DELETE</p>
-                </div>
-                <div  @click="emitEdit(props.id)" class="border-[2px] hover:cursor-pointer border-green-600 w-32 h-10 flex items-center justify-center gap-2">
-                    
-                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="Edit / Edit_Pencil_02">
-                    <path id="Vector" d="M4 16.0001V20.0001L8 20.0001L18.8686 9.13146L18.8695 9.13061C19.265 8.73516 19.4628 8.53736 19.5369 8.3092C19.6021 8.10835 19.6022 7.89201 19.5369 7.69117C19.4627 7.46284 19.2646 7.26474 18.8686 6.86872L17.1288 5.12892C16.7345 4.7346 16.5369 4.53704 16.3091 4.46301C16.1082 4.39775 15.8919 4.39775 15.691 4.46301C15.463 4.53709 15.2652 4.73488 14.8704 5.12976L14.8686 5.13146L4 16.0001Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                </svg>
-                <P>EDIT</P>
-            </div>
+    <div class="flex flex-col md:flex-row bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 group mb-8 mx-4 md:mx-12 md:h-72">
+
+        <div class="w-full md:w-48 lg:w-56 h-64 md:h-full flex-shrink-0 overflow-hidden relative bg-gray-50">
+            <img 
+                :src="props.image" 
+                :alt="props.title"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            >
+            <div class="absolute top-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-indigo-600 shadow-sm border border-indigo-50">
+                {{ props.type }}
             </div>
         </div>
 
+        <div class="p-6 md:p-8 flex flex-col flex-1 min-w-0 justify-between">
+            <div class="space-y-3">
+                <div class="flex justify-between items-start gap-4">
+                    <h2 class="text-xl md:text-2xl font-bold text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors truncate">
+                        {{ props.title }}
+                    </h2>
+                </div>
+                
+                <div class="flex flex-col gap-1">
+                    <p class="text-indigo-600 font-medium">
+                        by <span class="font-semibold">{{ props.author }}</span>
+                    </p>
+                    <div class="flex items-center gap-2 text-sm text-slate-500">
+                        <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>{{ props.publishedDate }}</span>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 line-clamp-3 text-sm leading-relaxed py-2 border-l-2 border-indigo-100 pl-4 italic">
+                    {{ props.description }}
+                </p>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-50">
+                <div v-if="props.role === 'Admin'" class="flex gap-4 w-full justify-end">
+                    <button 
+                        @click="emitEdit(props.id)"
+                        class="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-100 active:scale-95 transition-all font-semibold text-sm border border-emerald-100 shadow-sm"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Edit
+                    </button>
+                    <button 
+                        @click="emitDelete(props.id)"
+                        class="flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-100 active:scale-95 transition-all font-semibold text-sm border border-rose-100 shadow-sm"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  
 </template>

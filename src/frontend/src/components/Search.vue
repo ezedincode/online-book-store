@@ -74,13 +74,13 @@ function navigateBooks(){
             WISHLIST</p>
     </div>
   </div> -->
-  <div class="h-12 bg-[#173f5f]  flex justify-center gap-10 text-white items-center">
-    <p class="font-bold border-r h-6 pr-[50px] ">HOME</p>
-    <p class="border-r h-6 pr-14 ">ABOUT US</p>
-    <p @click="navigateBooks()" class="border-r h-6 pr-14 hover:cursor-pointer ">BOOKS</p>
-    <p class="border-r h-6 pr-14 ">NEW RELEASE</p>
-    <p class="border-r h-6 pr-14 ">CONTACT US</p>
-    <p>BLOG</p>
+  <div class="h-12 bg-[#173f5f] flex justify-center gap-10 text-white items-center">
+    <router-link to="/" class="font-bold border-r h-6 pr-[50px] hover:text-indigo-200 transition-colors">HOME</router-link>
+    <router-link to="/about" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">About Us</router-link>
+    <router-link to="/books" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">Books</router-link>
+    <router-link to="/new-release" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">New Release</router-link>
+    <router-link to="/contact" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">Contact Us</router-link>
+    <router-link to="/blog" class="hover:text-indigo-200 transition-colors uppercase">Blog</router-link>
   </div>
   <div class=" w-full h-[600px] flex">
     <div class="w-1/2 flex flex-col shrink-0 bg-gradient-to-r from-[#ffe5e5] to-white">

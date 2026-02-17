@@ -79,17 +79,17 @@ function navigateHome () {
     </div>
      
         </div>
-        <div class="h-12 bg-[#173f5f] mt-5 flex justify-center gap-10 text-white items-center">
-    <p class="font-bold border-r h-6 pr-[50px] ">HOME</p>
-    <p class="border-r h-6 pr-14 ">ABOUT US</p>
-    <p  class="border-r h-6 pr-14 ">BOOKS</p>
-    <p class="border-r h-6 pr-14 ">NEW RELEASE</p>
-    <p class="border-r h-6 pr-14 ">CONTACT US</p>
-    <p>BLOG</p>
-  </div>
+    <div class="h-12 bg-[#173f5f] mt-5 flex justify-center gap-10 text-white items-center">
+      <router-link to="/" class="font-bold border-r h-6 pr-[50px] hover:text-indigo-200 transition-colors">HOME</router-link>
+      <router-link to="/about" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">About Us</router-link>
+      <router-link to="/books" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">Books</router-link>
+      <router-link to="/new-release" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">New Release</router-link>
+      <router-link to="/contact" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">Contact Us</router-link>
+      <router-link to="/blog" class="hover:text-indigo-200 transition-colors uppercase">Blog</router-link>
+    </div>
   </div>
   <div class="pt-[140px] mr-12 flex flex-col  gap-3 shrink-0">
-  <div class="  [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
+  <div class=" mt-3 [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd]" v-for="book in authStore.books" > 
 
     <BookItem  :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
    
