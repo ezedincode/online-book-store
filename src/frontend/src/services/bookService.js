@@ -50,9 +50,13 @@ export const searchbyTitleAndKeywordApi = (searchBody, page, size) => {
     })
 
 }
-export const uploadBook = (file) => {
+export const uploadBookApi = (file) => {
 
     return api.post(`/admin/books/upload`, file,
         { headers: { "Content-Type": "multipart/form-data" } }
     )
 };
+
+export const downloadUrlApi = (filename) => {
+    return api.post(`/home/download`, { filename });
+}

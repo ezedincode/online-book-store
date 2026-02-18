@@ -74,7 +74,7 @@ function handleFileUpload(event) {
         <div class="flex flex-col gap-5 " v-if="selector==='bookList'">
               <div class="  [&>*]:rounded-[10px] [&>*]:border [&>*]:border-[#7954bd] " v-for="book in authStore.books" > 
 
-    <BookItem @delete="deleteBook" @edit="editBookselector" :id="book.id" :role="'Admin'" :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" ></BookItem>
+    <BookItem @delete="deleteBook" @edit="editBookselector" :id="book.id" :role="'Admin'" :description="book.description" :title="book.title" :author="book.author" :image="book.image" :published-date="book.publishedDate" :type="book.type" :storage-url="book.storageUrl" ></BookItem>
    
 </div>
 <Pagination></Pagination>

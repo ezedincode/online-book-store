@@ -101,6 +101,7 @@ function navigateHome () {
           :published-date="book.publishedDate" 
           :type="book.type"
           :role="authStore.role"
+          :storage-url="book.storageUrl"
         ></BookItem>
       </div>
       <Pagination></Pagination>

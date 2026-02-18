@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
-import { fetchBookApi, uploadBook, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
+import { fetchBookApi, uploadBookApi, downloadUrlApi, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -73,6 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
   // const booktype = ref('All');
   const page = ref('1');
   const size = ref('10');
+  const totalPages = ref(0);
   const fetchBooks = async () => {
     books.value = null;
     error.value = null;
@@ -84,8 +85,8 @@ export const useAuthStore = defineStore('auth', () => {
         page.value,
         size.value
       );
-      // if(booktype.value === 'All'){
-      books.value = response.data;
+      books.value = response.data.content;
+      totalPages.value = response.data.totalPages;
       //    console.log(books.value[0].type);
       // }
       // else{
@@ -130,7 +131,8 @@ export const useAuthStore = defineStore('auth', () => {
         type: type.value,
         keyword: keyword.value
       }, page.value, size.value)
-      books.value = response.data;
+      books.value = response.data.content;
+      totalPages.value = response.data.totalPages;
     } catch (error) {
       console.error("Search failed", error);
     }
@@ -161,6 +163,7 @@ export const useAuthStore = defineStore('auth', () => {
       rating: 0,
       description: ''
     },
+    storageUrl: '',
     downloads: []
   })
   const resetNewBook = () => {
@@ -181,11 +184,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   const addBook = async () => {
     try {
-      if(file.value){
-      const path =  await upload(file);
-      console.log(path);
-      newBook.value.storageUrl = path;
-      console.log(newBook.value.storageUrl);
+      if (file.value) {
+        const path = await upload(file);
+        console.log(path);
+        newBook.value.storageUrl = path;
+        console.log(newBook.value.storageUrl);
       }
       console.log("here")
       const response = await addBookApi(newBook.value);
@@ -207,6 +210,7 @@ export const useAuthStore = defineStore('auth', () => {
       rating: 0,
       description: ''
     },
+    storageUrl: '',
     downloads: []
   })
   const editBook = async () => {
@@ -235,7 +239,8 @@ export const useAuthStore = defineStore('auth', () => {
         await fetchBooks();
       }
       const response = await searchByTypeApi(type.value, page.value, size.value);
-      books.value = response.data;
+      books.value = response.data.content;
+      totalPages.value = response.data.totalPages;
     } catch (err) {
       error.value = err.response?.data?.message || err.message;
     }
@@ -245,10 +250,24 @@ export const useAuthStore = defineStore('auth', () => {
   const upload = async () => {
     const formData = new FormData();
     formData.append("file", file.value);
-    const response = await uploadBook(formData);
+    const response = await uploadBookApi(formData);
     return response.data;
   }
-
+  const filename = ref('');
+  const download = async () => {
+    try {
+      const response = await downloadUrlApi(filename.value);
+      const signedUrl = response.data.url;
+      const link = document.createElement("a");
+      link.href = signedUrl;
+      link.setAttribute("download", filename.value);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("Download failed:", err);
+    }
+  }
   return {
 
     registerForm,
@@ -259,7 +278,9 @@ export const useAuthStore = defineStore('auth', () => {
     keyword,
     books,
     page,
+    filename,
     size,
+    totalPages,
     newBook,
     role,
     bookid,
@@ -272,6 +293,7 @@ export const useAuthStore = defineStore('auth', () => {
     updateRegisterField,
     searchbyTitleAndKeyword,
     deleteBook,
+    download,
     initialize,
     resetForm,
     resetNewBook,

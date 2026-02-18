@@ -81,9 +81,9 @@ public class admin {
                 .body(Map.of("status", "error", "message", "user not found!"));
     }
     @PostMapping("/books/upload")
-    public ResponseEntity<String> uploadBook(@RequestParam("file") MultipartFile file) throws IOException {
-        String url = storageService.uploadFile(file);
-        return ResponseEntity.ok(url);
+    public String uploadBook(@RequestParam("file") MultipartFile file) throws IOException {
+        String fileName = storageService.uploadFile(file);
+        return fileName;
     }
 
     @PutMapping("/editBook")

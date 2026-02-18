@@ -37,6 +37,7 @@ public class StorageService {
                 request,
                 String.class
         );
+        System.out.println(fileName);
         return fileName;
     }
     public String generateSignedUrl(String fileName) {

@@ -3,8 +3,10 @@ package com.group2.online_book_store.Controller;
 import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.book.Type;
 import com.group2.online_book_store.Entity.book.bookDTO;
+import com.group2.online_book_store.dto.PageResponse;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Service.BookService.bookService;
+import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ public class home {
 
 
     private final bookService bookservice;
+    private final StorageService storageService;
 
     public bookDTO toBookDTO(Book book) {
         return bookservice.getBookDTO(book);
@@ -34,7 +37,7 @@ public class home {
         return bookservice.description(id);
     }
     @GetMapping("/bookList")
-    public ResponseEntity<List<bookDTO>> Books(
+    public ResponseEntity<PageResponse<bookDTO>> Books(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -46,15 +49,22 @@ public class home {
         for(Book book : books) {
             bookDTO bookDTO = toBookDTO(book);
             bookDTO.setDescription(getDescription(book.getId()));
-            System.out.println();
             bookDTOs.add(bookDTO);
         }
 
-        return ResponseEntity.ok(bookDTOs);
+        PageResponse<bookDTO> response = PageResponse.<bookDTO>builder()
+                .content(bookDTOs)
+                .totalPages(books.getTotalPages())
+                .totalElements(books.getTotalElements())
+                .currentPage(page)
+                .pageSize(size)
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<bookDTO>> searchBooks(
+    public ResponseEntity<PageResponse<bookDTO>> searchBooks(
             @RequestBody Map<String, String> request,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -68,16 +78,23 @@ public class home {
             for(Book book : books) {
                 bookDTO bookDTO = toBookDTO(book);
                 bookDTO.setDescription(getDescription(book.getId()));
-                System.out.println();
                 bookDTOs.add(bookDTO);
             }
 
-            return ResponseEntity.ok(bookDTOs);
+            PageResponse<bookDTO> response = PageResponse.<bookDTO>builder()
+                    .content(bookDTOs)
+                    .totalPages(books.getTotalPages())
+                    .totalElements(books.getTotalElements())
+                    .currentPage(page)
+                    .pageSize(size)
+                    .build();
+
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.badRequest().body(null);
     }
     @PostMapping("/type")
-    public ResponseEntity<List<bookDTO>> searchByType(
+    public ResponseEntity<PageResponse<bookDTO>> searchByType(
             @RequestBody Type type,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -92,13 +109,22 @@ public class home {
                 bookDTO.setDescription(getDescription(book.getId()));
                 bookDTOs.add(bookDTO);
             }
-            return ResponseEntity.ok(bookDTOs);
+
+            PageResponse<bookDTO> response = PageResponse.<bookDTO>builder()
+                    .content(bookDTOs)
+                    .totalPages(books.getTotalPages())
+                    .totalElements(books.getTotalElements())
+                    .currentPage(page)
+                    .pageSize(size)
+                    .build();
+
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.badRequest().body(null);
     }
 
     @PostMapping("/searchByTypeAndKeyword")
-    public ResponseEntity<List<bookDTO>> searchByTypeAndKeyword(
+    public ResponseEntity<PageResponse<bookDTO>> searchByTypeAndKeyword(
             @RequestBody Map<String, Object> request,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -121,7 +147,16 @@ public class home {
                     bookDTO.setDescription(getDescription(book.getId()));
                     bookDTOs.add(bookDTO);
                 }
-                return ResponseEntity.ok(bookDTOs);
+
+                PageResponse<bookDTO> response = PageResponse.<bookDTO>builder()
+                        .content(bookDTOs)
+                        .totalPages(books.getTotalPages())
+                        .totalElements(books.getTotalElements())
+                        .currentPage(page)
+                        .pageSize(size)
+                        .build();
+
+                return ResponseEntity.ok(response);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().body(null);
             }
@@ -168,6 +203,16 @@ public class home {
         return ResponseEntity.ok(newbook);
 
     }
+    @PostMapping("/download")
+    public ResponseEntity<Map<String, String>> downloadBook(@RequestBody Map<String, String> request) {
+        String filename = request.get("filename");
+
+        String signedUrl = storageService.generateSignedUrl(filename);
+
+        Map<String, String> response = Map.of("url", signedUrl);
+        return ResponseEntity.ok(response);
+    }
+
 }
 
 

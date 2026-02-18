@@ -1,15 +1,57 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
+import { computed } from 'vue';
 
 const authStore = useAuthStore();
+
+const visiblePages = computed(() => {
+    const total = authStore.totalPages;
+    const current = Number(authStore.page);
+    const range = 2; // Show 2 pages before and after the current page
+    
+    let start = Math.max(1, current - range);
+    let end = Math.min(total, current + range);
+    
+    // Adjust if near the start
+    if (current <= range) {
+        end = Math.min(total, 1 + (range * 2));
+    }
+    
+    // Adjust if near the end
+    if (current > total - range) {
+        start = Math.max(1, total - (range * 2));
+    }
+
+    const pages = [];
+    for (let i = start; i <= end; i++) {
+        pages.push(i);
+    }
+    return pages;
+});
+
+const showTrailingDots = computed(() => {
+    const total = authStore.totalPages;
+    const current = Number(authStore.page);
+    return total > 5 && (current + 2) < total;
+});
+
+const showLastPage = computed(() => {
+    const total = authStore.totalPages;
+    const current = Number(authStore.page);
+    return total > 5 && (current + 2) < total;
+})
+
 function decrementPage(){
     console.log(authStore.page)
-    if(authStore.page === 1){
+    if(Number(authStore.page) === 1){
         return;
     }
     authStore.page--;
 }
 function incrementPage(){
+    if(Number(authStore.page) >= authStore.totalPages){
+        return;
+    }
     authStore.page++;
 }
 function setPageAndSize(page){
@@ -32,23 +74,32 @@ function setPageAndSize(page){
             </svg>
         </button>
 
-             <button 
-            v-for="i in 5" 
-            :key="i"
-            @click="setPageAndSize(i)" 
+        <button 
+            v-for="page in visiblePages" 
+            :key="page"
+            @click="setPageAndSize(page)" 
             class="w-12 h-12 flex items-center justify-center rounded-2xl border-2 font-bold transition-all duration-300 shadow-sm"
-            :class="Number(authStore.page) === i 
-                ? 'bg-[#173f5f] border-[#ed173f5f553b] text-white shadow-lg shadow-[#ed553b]/20 scale-110 z-10' 
+            :class="Number(authStore.page) === page 
+                ? 'bg-[#173f5f] border-[#173f5f] text-white shadow-lg shadow-[#173f5f]/20 scale-110 z-10' 
                 : 'bg-white border-slate-100 text-slate-600 hover:border-[#173f5f] hover:text-[#173f5f] hover:shadow-md'"
         >
-            {{ i }}
+            {{ page }}
         </button>
 
-        <div class="w-8 h-12 flex items-center justify-center text-slate-300 font-bold">...</div>
+        <div v-if="showTrailingDots" class="w-8 h-12 flex items-center justify-center text-slate-300 font-bold">...</div>
+
+        <button 
+            v-if="showLastPage"
+            @click="setPageAndSize(authStore.totalPages)" 
+            class="w-12 h-12 flex items-center justify-center rounded-2xl border-2 font-bold transition-all duration-300 shadow-sm bg-white border-slate-100 text-slate-600 hover:border-[#173f5f] hover:text-[#173f5f] hover:shadow-md"
+        >
+            {{ authStore.totalPages }}
+        </button>
 
         <button 
             @click="incrementPage()" 
-            class="w-12 h-12 flex justify-center items-center rounded-2xl border-2 border-slate-100 bg-white text-slate-400 hover:border-[#ed553b] hover:text-[#ed553b] transition-all duration-300 shadow-sm group"
+            :disabled="Number(authStore.page) >= authStore.totalPages"
+            class="w-12 h-12 flex justify-center items-center rounded-2xl border-2 border-slate-100 bg-white text-slate-400 hover:border-[#173f5f] hover:text-[#173f5f] disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 shadow-sm group"
             title="Next Page"
         >
             <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
