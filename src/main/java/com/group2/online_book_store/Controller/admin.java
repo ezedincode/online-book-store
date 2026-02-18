@@ -5,12 +5,15 @@ import com.group2.online_book_store.Entity.user.Status;
 import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Service.BookService.bookService;
 import com.group2.online_book_store.Service.UserService.userService;
+import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 @PreAuthorize("hasRole('ADMIN')")
@@ -22,6 +25,7 @@ public class admin {
 
     private final userService userService;
     private final bookService bookService;
+    private final StorageService storageService;
 
     @DeleteMapping("/removeUser")
     public ResponseEntity<Map<String, String>> removeUser(@RequestBody User user) {
@@ -76,7 +80,11 @@ public class admin {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("status", "error", "message", "user not found!"));
     }
-
+    @PostMapping("/books/upload")
+    public ResponseEntity<String> uploadBook(@RequestParam("file") MultipartFile file) throws IOException {
+        String url = storageService.uploadFile(file);
+        return ResponseEntity.ok(url);
+    }
 
     @PutMapping("/editBook")
     public ResponseEntity<String> editBook(@RequestBody Book updatedBook) {
