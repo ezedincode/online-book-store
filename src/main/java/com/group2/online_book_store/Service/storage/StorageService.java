@@ -75,5 +75,34 @@ public class StorageService {
 
         return supaBaseUrl + "/storage/v1" + signedPath;
     }
+    public void deleteFile(String fileName) {
+
+        String bucket = "book";
+
+        String url = supaBaseUrl +
+                "/storage/v1/object/" + bucket;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + serviceKey);
+        headers.set("apikey", serviceKey);
+
+        String body = """
+        {
+          "prefixes": ["%s"]
+        }
+        """.formatted(fileName);
+
+        HttpEntity<String> request =
+                new HttpEntity<>(body, headers);
+        System.out.println(request.toString());
+        restTemplate.exchange(
+                url,
+                HttpMethod.DELETE,
+                request,
+                String.class
+        );
+        System.out.println("final");
+    }
 
 }

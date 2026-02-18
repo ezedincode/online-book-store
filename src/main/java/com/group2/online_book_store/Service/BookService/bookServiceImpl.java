@@ -25,8 +25,10 @@ public class bookServiceImpl implements bookService {
     private final StorageService storageService;
     @Override
     public boolean removeBook(int id) {
-        if (repository.existsById(id)) {
+        Book book = repository.findById(id).orElse(null);
+        if (book != null) {
             repository.deleteById(id);
+            storageService.deleteFile(book.getStorageUrl());
             return true;
         }
         return false;
