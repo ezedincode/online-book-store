@@ -6,12 +6,14 @@ import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Repository.bookDetailRepository;
 import com.group2.online_book_store.Repository.bookRepository;
+import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class bookServiceImpl implements bookService {
     private final bookRepository repository;
     private final bookDetailRepository detailRepository;
+    private final StorageService storageService;
     @Override
     public boolean removeBook(int id) {
         if (repository.existsById(id)) {
@@ -81,6 +84,7 @@ public class bookServiceImpl implements bookService {
                 .author(book.getAuthor())
                 .image(book.getImage())
                 .publishedDate(book.getPublishedDate())
+                .storageUrl(book.getStorageUrl())
                 .type(book.getType())
                 .build();
     }
@@ -100,6 +104,7 @@ public class bookServiceImpl implements bookService {
             existingBook.setAuthor(updatedBook.getAuthor());
             existingBook.setImage(updatedBook.getImage());
             existingBook.setPublishedDate(updatedBook.getPublishedDate());
+            existingBook.setStorageUrl(updatedBook.getStorageUrl());
             existingBook.setType(updatedBook.getType());
 
             if (updatedBook.getBookDetail() != null) {

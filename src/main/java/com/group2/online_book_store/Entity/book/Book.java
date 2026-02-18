@@ -24,6 +24,8 @@ public class Book {
 
     private String title;
 
+    private String storageUrl;
+
     private String author;
     @Column(length=11500)
     private String image;
@@ -36,6 +38,7 @@ public class Book {
     public Book(Book oldBook){
         this.id = oldBook.getId();
         this.title = oldBook.getTitle();
+        this.storageUrl = oldBook.getStorageUrl();
         this.author = oldBook.getAuthor();
         this.image = oldBook.getImage();
         this.publishedDate = oldBook.getPublishedDate();

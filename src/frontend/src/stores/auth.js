@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
-import { fetchBookApi, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
+import { fetchBookApi, uploadBook, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -168,6 +168,7 @@ export const useAuthStore = defineStore('auth', () => {
       title: '',
       author: '',
       image: '',
+      storageUrl: '',
       type: 'Fiction',
       publishedDate: '',
       bookDetail: {
@@ -180,8 +181,16 @@ export const useAuthStore = defineStore('auth', () => {
 
   const addBook = async () => {
     try {
+      if(file.value){
+      const path =  await upload(file);
+      console.log(path);
+      newBook.value.storageUrl = path;
+      console.log(newBook.value.storageUrl);
+      }
+      console.log("here")
       const response = await addBookApi(newBook.value);
       resetNewBook();
+      file.value = null;
       await fetchBooks();
     } catch (err) {
       throw err.response?.data?.message || err.message;
@@ -231,9 +240,14 @@ export const useAuthStore = defineStore('auth', () => {
       error.value = err.response?.data?.message || err.message;
     }
   }
+  const file = ref(null);
 
-
-
+  const upload = async () => {
+    const formData = new FormData();
+    formData.append("file", file.value);
+    const response = await uploadBook(formData);
+    return response.data;
+  }
 
   return {
 
@@ -250,6 +264,7 @@ export const useAuthStore = defineStore('auth', () => {
     role,
     bookid,
     editedBook,
+    file,
     // booktype,
     type,
 

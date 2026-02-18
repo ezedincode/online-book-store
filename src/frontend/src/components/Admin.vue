@@ -47,6 +47,9 @@ async function editBook() {
         alert('Error editing book: ' + err.message);
     }
 }
+function handleFileUpload(event) {
+    authStore.file = event.target.files[0];
+}
 </script>
 
 <template>
@@ -93,6 +96,25 @@ async function editBook() {
             </select>
             <input v-model.number="authStore.newBook.bookDetail.rating" type="number" placeholder="Rating (0-5)" min="0" max="5">
             <input v-model="authStore.newBook.bookDetail.description" type="text" placeholder="Description">
+            <div class="w-1/2 border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center gap-4 bg-gray-50 hover:bg-white hover:border-[#173f5f] transition-all cursor-pointer group relative">
+                <input @change="handleFileUpload" type="file" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+                <div class="p-4 bg-blue-50 rounded-full group-hover:bg-[#173f5f]/10 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#173f5f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <div class="text-center">
+                    <p class="text-sm font-semibold text-[#173f5f] mb-1">
+                        {{ authStore.file ? authStore.file.name : 'Click or drag to upload book file' }}
+                    </p>
+                    <p class="text-xs text-gray-400">
+                        {{ authStore.file ? 'File selected' : 'DOC, PDF, or EPUB (Max 10MB)' }}
+                    </p>
+                </div>
+                <div class="px-4 py-2 bg-[#173f5f] text-white text-xs font-medium rounded-lg group-hover:bg-[#0d2a42] transition-colors">
+                    {{ authStore.file ? 'Change File' : 'Select File' }}
+                </div>
+            </div>
             <button @click="addBook()" class="border bg-green-600 text-white w-32 h-12 rounded-lg mt-5 hover:bg-green-700 transition" >ADD BOOK</button>
            
         </div>

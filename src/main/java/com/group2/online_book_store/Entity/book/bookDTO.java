@@ -18,6 +18,7 @@ public class bookDTO {
         private String image;
         private String publishedDate;
         private String description;
+        private String storageUrl;
         private Type type;
 
 
