@@ -27,7 +27,7 @@ public class thumbnail {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ImageIO.write(image, "jpg", outputStream);
             byte[] imageBytes = outputStream.toByteArray();
-            url= service.generateSignedUrl(service.uploadThumbnail(imageBytes, name));
+            url= service.generateSignedUrl(service.uploadThumbnail(imageBytes, name),"thumbnail");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

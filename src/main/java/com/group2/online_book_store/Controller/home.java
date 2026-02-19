@@ -207,7 +207,7 @@ public class home {
     public ResponseEntity<Map<String, String>> downloadBook(@RequestBody Map<String, String> request) {
         String filename = request.get("filename");
 
-        String signedUrl = storageService.generateSignedUrl(filename);
+        String signedUrl = storageService.generateSignedUrl(filename,"book");
 
         Map<String, String> response = Map.of("url", signedUrl);
         return ResponseEntity.ok(response);

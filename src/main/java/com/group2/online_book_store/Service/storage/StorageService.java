@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -41,7 +42,7 @@ public class StorageService {
         return fileName;
     }
     public String uploadThumbnail(byte[] bytes, String fileName) {
-        String uploadUrl = supaBaseUrl + "/storage/v1/object/book/" + fileName;
+        String uploadUrl = supaBaseUrl + "/storage/v1/object/thumbnail/" + fileName;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
@@ -59,27 +60,39 @@ public class StorageService {
         return fileName;
     }
 
-    public String generateSignedUrl(String fileName) {
-
-        String bucket = "book";
+    public String generateSignedUrl(String fileName,String bucketName) {
 
         String url = supaBaseUrl +
                 "/storage/v1/object/sign/" +
-                bucket + "/" + fileName;
+                bucketName + "/" + fileName;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + serviceKey);
         headers.set("apikey", serviceKey);
 
-        String body = """
+        HttpEntity<String> request=null;
+        if(Objects.equals(bucketName, "book")){
+            String body = """
         {
           "expiresIn": 60
         }
         """;
+        request = new HttpEntity<>(body, headers);
+        }else{
+            int expiresInSeconds = 60 * 60 * 24 * 30 * 12;
 
-        HttpEntity<String> request =
-                new HttpEntity<>(body, headers);
+            String body = """
+            {
+                "expiresIn": %d
+            }
+            """.formatted(expiresInSeconds);
+
+            request = new HttpEntity<>(body,headers);
+        }
+
+
+
 
         ResponseEntity<Map> response =
                 restTemplate.exchange(

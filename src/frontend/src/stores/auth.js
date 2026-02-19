@@ -70,7 +70,6 @@ export const useAuthStore = defineStore('auth', () => {
     role.value = decoded.role;
   };
   const books = ref([]);
-  // const booktype = ref('All');
   const page = ref('1');
   const size = ref('10');
   const totalPages = ref(0);
@@ -87,18 +86,7 @@ export const useAuthStore = defineStore('auth', () => {
       );
       books.value = response.data.content;
       totalPages.value = response.data.totalPages;
-      //    console.log(books.value[0].type);
-      // }
-      // else{
-      //   books.value = response.data;
-      //   console.log(booktype.value);
-      //   console.log(books);
-
-      //   // books.value = books.value.filter(book => book.type === booktype.value)
-
-      // }
-
-
+ 
     } catch (err) {
       error.value = err.response?.data?.message || err.message;
       books.value = null;
@@ -300,7 +288,6 @@ export const useAuthStore = defineStore('auth', () => {
     bookid,
     editedBook,
     file,
-    // booktype,
     type,
 
     editBook,
