@@ -3,6 +3,8 @@ package com.group2.online_book_store.Controller;
 import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.book.Type;
 import com.group2.online_book_store.Entity.book.bookDTO;
+import com.group2.online_book_store.Entity.event.eventType;
+import com.group2.online_book_store.Service.Event.bookEventService;
 import com.group2.online_book_store.dto.PageResponse;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Service.BookService.bookService;
@@ -10,6 +12,7 @@ import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -29,6 +32,7 @@ public class home {
 
     private final bookService bookservice;
     private final StorageService storageService;
+    private final bookEventService bookeventservice;
 
     public bookDTO toBookDTO(Book book) {
         return bookservice.getBookDTO(book);
@@ -204,11 +208,11 @@ public class home {
 
     }
     @PostMapping("/download")
-    public ResponseEntity<Map<String, String>> downloadBook(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, String>> downloadBook(@RequestBody Map<String, String> request, Authentication authentication) {
         String filename = request.get("filename");
 
         String signedUrl = storageService.generateSignedUrl(filename,"book");
-
+        bookeventservice.save( authentication, eventType.DOWNLOAD,filename);
         Map<String, String> response = Map.of("url", signedUrl);
         return ResponseEntity.ok(response);
     }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface userRepository extends JpaRepository<User,Integer> {
-    User findByusername(String userName);
+    User findByUsername(String userName);
     boolean existsByEmail(String email);
     @Transactional
     @Modifying

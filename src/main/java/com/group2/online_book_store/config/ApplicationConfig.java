@@ -18,7 +18,7 @@ public class ApplicationConfig {
     private final userRepository repository;
     @Bean
     public UserDetailsService userDetailsService() {
-        return repository::findByusername;
+        return repository::findByUsername;
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){

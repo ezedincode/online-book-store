@@ -20,7 +20,7 @@ public class userServiceImpl implements userService{
     }
     @Override
     public User getUserByUserName(String username){
-        return userRepository.findByusername(username);
+        return userRepository.findByUsername(username);
     }
     @Override
     public User getUserById(Integer id){
@@ -76,7 +76,7 @@ public class userServiceImpl implements userService{
     @Override
     public User authenticateUser(User user) {
 
-        User existingUser  = userRepository.findByusername(user.getUsername());
+        User existingUser  = userRepository.findByUsername(user.getUsername());
 
         if (existingUser  != null && existingUser .getPassword().equals(user.getPassword())) {
 

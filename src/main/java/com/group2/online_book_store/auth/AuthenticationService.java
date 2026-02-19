@@ -79,7 +79,7 @@ public class AuthenticationService {
                )
        );
         System.out.println("passes authentication manager");
-        var user =repository.findByusername(request.getUsername());
+        var user =repository.findByUsername(request.getUsername());
         System.out.println(user);
         if(user.getStatus().equals(Status.NOTActive) ) {
 

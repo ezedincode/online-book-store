@@ -19,13 +19,11 @@ public class book_event {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="book_id")
-    private Book book_id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
-    private User user;
+    private Integer book_id;
+
+
+    private Integer user_id;
 
     @Enumerated(EnumType.STRING)
     private eventType event;

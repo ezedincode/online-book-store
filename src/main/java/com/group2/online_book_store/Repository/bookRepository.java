@@ -21,4 +21,6 @@ public interface bookRepository extends JpaRepository<Book,Integer> {
 
     @Query("SELECT b FROM Book b JOIN b.bookDetail c ORDER BY c.priority DESC, b.id ASC")
     Page<Book> findAllBooksOrderByPriorityDesc(Pageable pageable);
+
+    Book findByStorageUrl(String filename);
 }
