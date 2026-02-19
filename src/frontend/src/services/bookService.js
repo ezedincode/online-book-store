@@ -60,3 +60,10 @@ export const uploadBookApi = (file) => {
 export const downloadUrlApi = (filename) => {
     return api.post(`/home/download`, { filename });
 }
+
+export const uploadThumbnailApi = (file) => {
+
+    return api.post(`/admin/thumbnail/upload`, file,
+        { headers: { "Content-Type": "multipart/form-data" } }
+    )
+};

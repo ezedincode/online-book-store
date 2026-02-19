@@ -4,6 +4,7 @@ import com.group2.online_book_store.Entity.book.Book;
 import com.group2.online_book_store.Entity.user.Status;
 import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Service.BookService.bookService;
+import com.group2.online_book_store.Service.PdfThumbnailGenerator.thumbnail;
 import com.group2.online_book_store.Service.UserService.userService;
 import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class admin {
     private final userService userService;
     private final bookService bookService;
     private final StorageService storageService;
+    private final thumbnail thumbnailService;
 
     @DeleteMapping("/removeUser")
     public ResponseEntity<Map<String, String>> removeUser(@RequestBody User user) {
@@ -82,9 +84,13 @@ public class admin {
     }
     @PostMapping("/books/upload")
     public String uploadBook(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileName = storageService.uploadFile(file);
-        return fileName;
+        return storageService.uploadFile(file);
     }
+    @PostMapping("/thumbnail/upload")
+    public String uploadThumbnail(@RequestParam("file") MultipartFile file) throws IOException {
+       return thumbnailService.generate(file);
+    }
+
 
     @PutMapping("/editBook")
     public ResponseEntity<String> editBook(@RequestBody Book updatedBook) {

@@ -40,6 +40,25 @@ public class StorageService {
         System.out.println(fileName);
         return fileName;
     }
+    public String uploadThumbnail(byte[] bytes, String fileName) {
+        String uploadUrl = supaBaseUrl + "/storage/v1/object/book/" + fileName;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.set("Authorization", "Bearer " + serviceKey);
+        headers.set("apiKey", serviceKey);
+
+        HttpEntity<byte[]> request = new HttpEntity<>(bytes, headers);
+
+        restTemplate.exchange(
+                uploadUrl,
+                HttpMethod.POST,
+                request,
+                String.class
+        );
+        return fileName;
+    }
+
     public String generateSignedUrl(String fileName) {
 
         String bucket = "book";

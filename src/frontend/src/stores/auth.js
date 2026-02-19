@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
-import { fetchBookApi, uploadBookApi, downloadUrlApi, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
+import { fetchBookApi,uploadThumbnailApi, uploadBookApi, downloadUrlApi, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -185,10 +185,13 @@ export const useAuthStore = defineStore('auth', () => {
   const addBook = async () => {
     try {
       if (file.value) {
-        const path = await upload(file);
-        console.log(path);
+        const path = await upload();
         newBook.value.storageUrl = path;
-        console.log(newBook.value.storageUrl);
+        console.log(path);
+        const thumbnail = await uploadThumbnail();
+        console.log(thumbnail);
+        newBook.value.image = thumbnail;
+        console.log(newBook.value.image);
       }
       console.log("here")
       const response = await addBookApi(newBook.value);
@@ -215,7 +218,12 @@ export const useAuthStore = defineStore('auth', () => {
   })
   const editBook = async () => {
     try {
+      if (file.value) {
+        const path = await upload();
+        editedBook.value.storageUrl = path;
+      }
       await editBookApi(editedBook.value);
+      file.value = null;
       await fetchBooks();
     } catch (err) {
       throw err.response?.data?.message || err.message;
@@ -251,6 +259,12 @@ export const useAuthStore = defineStore('auth', () => {
     const formData = new FormData();
     formData.append("file", file.value);
     const response = await uploadBookApi(formData);
+    return response.data;
+  }
+  const uploadThumbnail = async () => {
+    const formDatathumb = new FormData();
+    formDatathumb.append("file", file.value);
+    const response = await uploadThumbnailApi(formDatathumb);
     return response.data;
   }
   const filename = ref('');

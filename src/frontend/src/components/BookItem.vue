@@ -31,12 +31,13 @@ const props = defineProps({
 })
 import { useAuthStore } from '@/stores/auth';
 const authStore = useAuthStore();
-const emit = defineEmits(['delete','edit']);
+const emit = defineEmits(['delete','edit-book']);
 function emitEdit(id){
-    emit('edit',id);
+    console.log('BookItem: emitEdit called for ID:', id);
+    emit('edit-book',id);
 }
 function emitDelete(id){
-    console.log(id)
+    console.log('BookItem: Emitting delete for ID:', id);
     emit('delete',id);
 }
 async function downloadBook(url){
@@ -93,11 +94,12 @@ async function downloadBook(url){
             </div>
 
             <!-- Actions Section -->
-            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-50">
-                <div v-if="props.role === 'Admin'" class="flex gap-4 w-full justify-end">
+            <div class="flex items-center justify-end mt-6 pt-4 border-t border-slate-50 gap-4">
+                <!-- Admin Actions -->
+                <template v-if="props.role === 'Admin'">
                     <button 
                         @click="emitEdit(props.id)"
-                        class="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-100 active:scale-95 transition-all font-semibold text-sm border border-emerald-100 shadow-sm"
+                        class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 active:scale-95 transition-all font-semibold text-sm shadow-md"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -113,19 +115,19 @@ async function downloadBook(url){
                         </svg>
                         Delete
                     </button>
-                </div>
+                </template>
+                
                 <!-- Download Button for everyone -->
-                <div class="flex gap-4 w-full justify-end" v-if="props.storageUrl">
-                    <button 
-                        @click="downloadBook(props.storageUrl)"
-                        class="flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 active:scale-95 transition-all font-semibold text-sm border shadow-sm"
-                    >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                        Download
-                    </button>
-                </div>
+                <button 
+                    v-if="props.storageUrl"
+                    @click="downloadBook(props.storageUrl)"
+                    class="flex items-center gap-2 px-6 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 active:scale-95 transition-all font-semibold text-sm border shadow-sm"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Download
+                </button>
             </div>
         </div>
     </div>
