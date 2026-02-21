@@ -1,9 +1,6 @@
-package com.group2.online_book_store.Entity.event;
+package com.group2.online_book_store.Entity.statistics;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.group2.online_book_store.Entity.book.Book;
-import com.group2.online_book_store.Entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

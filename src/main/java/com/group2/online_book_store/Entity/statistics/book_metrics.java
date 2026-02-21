@@ -1,4 +1,4 @@
-package com.group2.online_book_store.Entity.event;
+package com.group2.online_book_store.Entity.statistics;
 
 import com.group2.online_book_store.Entity.book.Book;
 import jakarta.persistence.*;

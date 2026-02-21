@@ -1,10 +1,14 @@
 package com.group2.online_book_store.Controller;
 
 import com.group2.online_book_store.Entity.book.Book;
+import com.group2.online_book_store.Entity.statistics.book_metrics;
 import com.group2.online_book_store.Entity.user.Status;
 import com.group2.online_book_store.Entity.user.User;
+import com.group2.online_book_store.Entity.statistics.GlobalStatistics;
 import com.group2.online_book_store.Service.BookService.bookService;
+import com.group2.online_book_store.Service.Statistics.bookEventService;
 import com.group2.online_book_store.Service.PdfThumbnailGenerator.thumbnail;
+import com.group2.online_book_store.Service.Statistics.GlobalStatisticsService;
 import com.group2.online_book_store.Service.UserService.userService;
 import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,8 @@ public class admin {
     private final bookService bookService;
     private final StorageService storageService;
     private final thumbnail thumbnailService;
+    private final bookEventService eventService;
+    private final GlobalStatisticsService globalStatisticsService;
 
     @DeleteMapping("/removeUser")
     public ResponseEntity<Map<String, String>> removeUser(@RequestBody User user) {
@@ -101,5 +107,14 @@ public class admin {
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
+    @GetMapping("/statistics")
+    public List<book_metrics> getMetrics (){
+        return eventService.getAllBookEvent();
+    }
+
+    @GetMapping("/global-statistics")
+    public ResponseEntity<GlobalStatistics> getGlobalStatistics() {
+        return ResponseEntity.ok(globalStatisticsService.getGlobalStatistics());
     }
 }

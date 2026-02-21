@@ -1,9 +1,9 @@
-package com.group2.online_book_store.Service.Event;
+package com.group2.online_book_store.Service.Statistics;
 
 import com.group2.online_book_store.Entity.book.Book;
-import com.group2.online_book_store.Entity.event.book_event;
-import com.group2.online_book_store.Entity.event.book_metrics;
-import com.group2.online_book_store.Entity.event.eventType;
+import com.group2.online_book_store.Entity.statistics.book_event;
+import com.group2.online_book_store.Entity.statistics.book_metrics;
+import com.group2.online_book_store.Entity.statistics.eventType;
 import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Repository.bookMetricsRepository;
 import com.group2.online_book_store.Repository.bookRepository;
