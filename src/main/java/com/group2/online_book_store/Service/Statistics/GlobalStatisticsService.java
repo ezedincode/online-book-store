@@ -1,37 +1,48 @@
 package com.group2.online_book_store.Service.Statistics;
 
-import com.group2.online_book_store.Entity.statistics.book_metrics;
 import com.group2.online_book_store.Entity.statistics.GlobalStatistics;
-import com.group2.online_book_store.Repository.bookMetricsRepository;
-import com.group2.online_book_store.Repository.bookRepository;
+import com.group2.online_book_store.Repository.GlobalStatisticsRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class GlobalStatisticsService {
 
-    private final bookRepository bookRepository;
-    private final bookMetricsRepository metricsRepository;
+    private final GlobalStatisticsRepository globalStatisticsRepository;
+
+    @PostConstruct
+    public void init() {
+        if (globalStatisticsRepository.count() == 0) {
+            GlobalStatistics stats = GlobalStatistics.builder()
+                    .totalBooks(0)
+                    .totalDownloads(0)
+                    .totalViews(0)
+                    .build();
+            globalStatisticsRepository.save(stats);
+        }
+    }
 
     public GlobalStatistics getGlobalStatistics() {
-        long totalBooks = bookRepository.count();
-        List<book_metrics> allMetrics = metricsRepository.findAll();
+        return globalStatisticsRepository.findAll().stream()
+                .findFirst()
+                .orElse(GlobalStatistics.builder()
+                        .totalBooks(0)
+                        .totalDownloads(0)
+                        .totalViews(0)
+                        .build());
+    }
 
-        long totalDownloads = allMetrics.stream()
-                .mapToLong(book_metrics::getTotal_downloads)
-                .sum();
+    public void incrementBooks() {
+        globalStatisticsRepository.incrementBooks();
+    }
 
-        long totalViews = allMetrics.stream()
-                .mapToLong(book_metrics::getTotal_view)
-                .sum();
+    public void incrementDownloads() {
+        globalStatisticsRepository.incrementDownloads();
+    }
 
-        return GlobalStatistics.builder()
-                .totalBooks(totalBooks)
-                .totalDownloads(totalDownloads)
-                .totalViews(totalViews)
-                .build();
+    public void incrementViews() {
+        globalStatisticsRepository.incrementViews();
     }
 }

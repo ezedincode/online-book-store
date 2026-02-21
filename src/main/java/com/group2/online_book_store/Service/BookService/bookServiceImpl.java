@@ -6,6 +6,7 @@ import com.group2.online_book_store.Entity.book.bookDTO;
 import com.group2.online_book_store.Entity.bookDetail.BookDetail;
 import com.group2.online_book_store.Repository.bookDetailRepository;
 import com.group2.online_book_store.Repository.bookRepository;
+import com.group2.online_book_store.Service.Statistics.GlobalStatisticsService;
 import com.group2.online_book_store.Service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ public class bookServiceImpl implements bookService {
     private final bookRepository repository;
     private final bookDetailRepository detailRepository;
     private final StorageService storageService;
+    private final GlobalStatisticsService globalStatisticsService;
     @Override
     public boolean removeBook(int id) {
         Book book = repository.findById(id).orElse(null);
@@ -44,6 +46,7 @@ public class bookServiceImpl implements bookService {
             }
             
             repository.save(newBook);
+            globalStatisticsService.incrementBooks();
             return true;
         } catch (Exception e) {
             System.out.println("Error adding book: " + e.getMessage());

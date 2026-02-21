@@ -24,6 +24,7 @@ public class bookEventService {
     private final userRepository userRepository;
     private final bookRepository bookRepository;
     private final bookMetricsRepository metricsRepository;
+    private final GlobalStatisticsService globalStatisticsService;
 
     @Transactional
     public void save (Authentication authentication, eventType type, String filename) {
@@ -46,8 +47,10 @@ public class bookEventService {
        }
        if(type == eventType.DOWNLOAD){
            metricsRepository.IncrementDownload(bookId);
+           globalStatisticsService.incrementDownloads();
        } else if (type == eventType.VIEW) {
            metricsRepository.IncrementView(bookId);
+           globalStatisticsService.incrementViews();
        }
 
     }
