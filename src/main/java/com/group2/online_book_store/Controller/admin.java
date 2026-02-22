@@ -5,6 +5,7 @@ import com.group2.online_book_store.Entity.statistics.book_metrics;
 import com.group2.online_book_store.Entity.user.Status;
 import com.group2.online_book_store.Entity.user.User;
 import com.group2.online_book_store.Entity.statistics.GlobalStatistics;
+import com.group2.online_book_store.dto.DailyDownloadStats;
 import com.group2.online_book_store.Service.BookService.bookService;
 import com.group2.online_book_store.Service.Statistics.bookEventService;
 import com.group2.online_book_store.Service.PdfThumbnailGenerator.thumbnail;
@@ -111,6 +112,11 @@ public class admin {
     @GetMapping("/statistics")
     public List<book_metrics> getMetrics (){
         return eventService.getAllBookEvent();
+    }
+
+    @GetMapping("/daily-downloads")
+    public List<DailyDownloadStats> getDailyDownloads() {
+        return eventService.getDailyDownloads();
     }
 
     @GetMapping("/global-statistics")

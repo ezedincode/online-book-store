@@ -1,6 +1,7 @@
 package com.group2.online_book_store.Service.Statistics;
 
 import com.group2.online_book_store.Entity.book.Book;
+import com.group2.online_book_store.dto.DailyDownloadStats;
 import com.group2.online_book_store.Entity.statistics.book_event;
 import com.group2.online_book_store.Entity.statistics.book_metrics;
 import com.group2.online_book_store.Entity.statistics.eventType;
@@ -14,8 +15,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -58,5 +61,14 @@ public class bookEventService {
         List<book_metrics> events = new ArrayList<>();
         events = metricsRepository.findAll();
         return events;
+    }
+
+    public List<DailyDownloadStats> getDailyDownloads() {
+        List<Object[]> results = repository.getDailyDownloads();
+        return results.stream()
+                .map(result -> new DailyDownloadStats(
+                        ((java.sql.Date) result[0]).toLocalDate(),
+                        ((Number) result[1]).longValue()))
+                .collect(Collectors.toList());
     }
 }

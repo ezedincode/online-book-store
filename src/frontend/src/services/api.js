@@ -9,16 +9,27 @@ const api = axios.create({
 
 export default api;
 
+
 api.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('token');
-        if(token){
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-         return config;
-    },
-    (error) => Promise.reject(error)
-   
+  (config) => {
+    const token = localStorage.getItem("token");
+
+    const excludedPaths = [
+      "/auth/authenticate",
+      "/auth/register"
+    ];
+
+    const isExcluded = excludedPaths.some(path =>
+      config.url.includes(path)
+    );
+
+    if (token && !isExcluded) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(

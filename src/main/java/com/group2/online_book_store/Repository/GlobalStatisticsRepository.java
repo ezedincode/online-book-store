@@ -17,6 +17,11 @@ public interface GlobalStatisticsRepository extends JpaRepository<GlobalStatisti
 
     @Modifying
     @Transactional
+    @Query("UPDATE GlobalStatistics g SET g.totalBooks = g.totalBooks - 1")
+    void decrementBooks();
+
+    @Modifying
+    @Transactional
     @Query("UPDATE GlobalStatistics g SET g.totalDownloads = g.totalDownloads + 1")
     void incrementDownloads();
 

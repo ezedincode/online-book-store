@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { jwtDecode } from 'jwt-decode';
-import { fetchBookApi,uploadThumbnailApi, uploadBookApi, downloadUrlApi, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi } from '@/services/bookService';
+import { fetchBookApi, uploadThumbnailApi, uploadBookApi, downloadUrlApi, searchbyTitleAndKeywordApi, deleteBookApi, loginApi, registerApi, addBookApi, editBookApi, searchByTypeApi, fetchGlobalStatisticsApi, fetchDailyDownloadsApi } from '@/services/bookService';
 
 export const useAuthStore = defineStore('auth', () => {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -73,6 +73,31 @@ export const useAuthStore = defineStore('auth', () => {
   const page = ref('1');
   const size = ref('10');
   const totalPages = ref(0);
+  const globalStatistics = ref({
+    totalBooks: 0,
+    totalDownloads: 0,
+    totalViews: 0
+  });
+  const dailyDownloads = ref([]);
+
+  const fetchGlobalStatistics = async () => {
+    try {
+      const response = await fetchGlobalStatisticsApi();
+      globalStatistics.value = response.data;
+    } catch (err) {
+      console.error('Failed to fetch global statistics:', err);
+    }
+  };
+
+  const fetchDailyDownloads = async () => {
+    try {
+      const response = await fetchDailyDownloadsApi();
+      dailyDownloads.value = response.data;
+    } catch (err) {
+      console.error('Failed to fetch daily downloads:', err);
+    }
+  };
+
   const fetchBooks = async () => {
     books.value = null;
     error.value = null;
@@ -86,7 +111,7 @@ export const useAuthStore = defineStore('auth', () => {
       );
       books.value = response.data.content;
       totalPages.value = response.data.totalPages;
- 
+
     } catch (err) {
       error.value = err.response?.data?.message || err.message;
       books.value = null;
@@ -289,6 +314,7 @@ export const useAuthStore = defineStore('auth', () => {
     editedBook,
     file,
     type,
+    globalStatistics,
 
     editBook,
     updateRegisterField,
@@ -301,6 +327,9 @@ export const useAuthStore = defineStore('auth', () => {
     register,
     login,
     searchBy,
-    addBook
+    addBook,
+    fetchGlobalStatistics,
+    fetchDailyDownloads,
+    dailyDownloads
   };
 });

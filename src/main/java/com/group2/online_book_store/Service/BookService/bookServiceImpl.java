@@ -31,6 +31,7 @@ public class bookServiceImpl implements bookService {
         if (book != null) {
             repository.deleteById(id);
             storageService.deleteFile(book.getStorageUrl());
+            globalStatisticsService.decrementBooks();
             return true;
         }
         return false;

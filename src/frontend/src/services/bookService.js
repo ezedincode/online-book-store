@@ -67,3 +67,12 @@ export const uploadThumbnailApi = (file) => {
         { headers: { "Content-Type": "multipart/form-data" } }
     )
 };
+
+export const fetchGlobalStatisticsApi = () => {
+    return api.get(`/admin/global-statistics`);
+};
+
+export const fetchDailyDownloadsApi = () => {
+    return api.get(`/admin/daily-downloads`);
+};
+
