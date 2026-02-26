@@ -315,6 +315,7 @@ export const useAuthStore = defineStore('auth', () => {
     file,
     type,
     globalStatistics,
+    dailyDownloads,
 
     editBook,
     updateRegisterField,
@@ -329,7 +330,6 @@ export const useAuthStore = defineStore('auth', () => {
     searchBy,
     addBook,
     fetchGlobalStatistics,
-    fetchDailyDownloads,
-    dailyDownloads
+    fetchDailyDownloads
   };
 });

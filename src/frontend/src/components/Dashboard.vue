@@ -85,9 +85,8 @@ onMounted(async () => {
   </div>
 
   <div v-else class="p-8 space-y-8">
-    <!-- Top Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Total Books Card -->
+        
         <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-5">
             <div class="p-4 bg-blue-50 rounded-lg text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
