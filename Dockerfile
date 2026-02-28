@@ -1,21 +1,14 @@
-# Use an official JDK runtime as base image
-FROM maven:3.9.9-eclipse-temurin-21 as builder
+# Use Java 17 LTS base image
+FROM eclipse-temurin:17-jdk-alpine
+
+# Set working directory
 WORKDIR /app
 
-COPY . .
+# Copy the Spring Boot JAR into the container as app.jar
+COPY target/online-book-store-0.0.1-SNAPSHOT.jar ./app.jar
 
-RUN mvn clean install -DskipTests
-
-
-FROM eclipse-temurin:21-jdk
-
-# Set working directory in container
-WORKDIR /app
-
-# Copy the JAR file into the container
-COPY --from=builder /app/target/*.jar app.jar
-
+# Expose port 8080 (Spring Boot default)
 EXPOSE 8080
 
-# Run the app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the JAR
+ENTRYPOINT ["java","-jar","/app.jar"]
