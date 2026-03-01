@@ -89,11 +89,11 @@ function handleFileUpload(event) {
 
 <template>
     <div class="flex flex-col gap-5" >
-        <div class="flex h-12 bg-[#173f5f] justify-between items-center">
-            <div class="text-[20px] text-white ml-5 font-bold">
+        <div class="flex flex-col sm:flex-row sm:h-12 bg-[#173f5f] justify-between items-center gap-2 sm:gap-0 py-3 sm:py-0">
+            <div class="text-[16px] sm:text-[20px] text-white ml-5 font-bold">
                 ADMIN PANEL
             </div>
-            <div class="flex gap-5 mr-5 [&>div]:cursor-pointer [&>div]:px-3 [&>div]:py-1 [&>div]:rounded [&>div]:transition-colors">
+            <div class="flex flex-wrap justify-center gap-3 sm:gap-5 mr-0 sm:mr-5 [&>div]:cursor-pointer [&>div]:px-3 [&>div]:py-1 [&>div]:rounded [&>div]:transition-colors">
                 <div @click="RoutetoHome()" class="text-[12px] text-white hover:bg-white/10">HOME</div>
                 <div @click="dashboardSelector()" :class="selector === 'dashboard' ? 'bg-white/20' : ''" class="text-[12px] text-white hover:bg-white/10 font-medium">DASHBOARD</div>
                 <div @click="addBookSelector()" :class="selector === 'addBook' ? 'bg-white/20' : ''" class="text-[12px] text-white hover:bg-white/10">ADD BOOK</div>
@@ -114,11 +114,11 @@ function handleFileUpload(event) {
 </div>
 <Pagination></Pagination>
         </div >
-        <div class="flex items-center ml-12 flex-col gap-3 [&>input]:w-1/2 [&>input]:border [&>input]:h-12 [&>input]:rounded-lg [&>input]:pl-6" v-else-if="selector === 'addBook'">
+        <div class="flex items-center px-4 md:ml-12 flex-col gap-3 [&>input]:w-full [&>input]:sm:w-3/4 [&>input]:md:w-1/2 [&>input]:border [&>input]:h-12 [&>input]:rounded-lg [&>input]:pl-6" v-else-if="selector === 'addBook'">
             <input  v-model="authStore.newBook.title" type="text" placeholder="Title">
             <input v-model="authStore.newBook.author" type="text" placeholder="Author">
             <input v-model="authStore.newBook.publishedDate" type="text" placeholder="Published Date (YYYY-MM-DD)">
-            <select v-model="authStore.newBook.type" class="w-1/2 border h-12 rounded-lg pl-6">
+            <select v-model="authStore.newBook.type" class="w-full sm:w-3/4 md:w-1/2 border h-12 rounded-lg pl-6">
                 <option value="" disabled selected>Select Type</option>
                 <option value="Academic">Academic</option>
                 <option value="Biography">Biography</option>
@@ -130,7 +130,7 @@ function handleFileUpload(event) {
             </select>
             <input v-model.number="authStore.newBook.bookDetail.rating" type="number" placeholder="Rating (0-5)" min="0" max="5">
             <input v-model="authStore.newBook.bookDetail.description" type="text" placeholder="Description">
-            <div class="w-1/2 border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center gap-4 bg-gray-50 hover:bg-white hover:border-[#173f5f] transition-all cursor-pointer group relative">
+            <div class="w-full sm:w-3/4 md:w-1/2 border-2 border-dashed border-gray-300 rounded-xl p-4 sm:p-8 flex flex-col items-center justify-center gap-4 bg-gray-50 hover:bg-white hover:border-[#173f5f] transition-all cursor-pointer group relative">
                 <input @change="handleFileUpload" type="file" class="absolute inset-0 opacity-0 cursor-pointer z-10">
                 <div class="p-4 bg-blue-50 rounded-full group-hover:bg-[#173f5f]/10 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#173f5f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,11 +153,11 @@ function handleFileUpload(event) {
          
            
         </div>
-        <div class="flex items-center ml-12 flex-col gap-3 [&>input]:w-1/2 [&>input]:border [&>input]:h-12 [&>input]:rounded-lg [&>input]:pl-6" v-else-if="selector === 'editBook'">
+        <div class="flex items-center px-4 md:ml-12 flex-col gap-3 [&>input]:w-full [&>input]:sm:w-3/4 [&>input]:md:w-1/2 [&>input]:border [&>input]:h-12 [&>input]:rounded-lg [&>input]:pl-6" v-else-if="selector === 'editBook'">
             <input  v-model="authStore.editedBook.title" type="text" placeholder="Title">
             <input v-model="authStore.editedBook.author" type="text" placeholder="Author">
             <input v-model="authStore.editedBook.publishedDate" type="text" placeholder="Published Date (YYYY-MM-DD)">
-            <select v-model="authStore.editedBook.type" class="w-1/2 border h-12 rounded-lg pl-6">
+            <select v-model="authStore.editedBook.type" class="w-full sm:w-3/4 md:w-1/2 border h-12 rounded-lg pl-6">
                 <option value="" disabled selected>Select Type</option>
                 <option value="Academic">Academic</option>
                 <option value="Biography">Biography</option>
@@ -170,7 +170,7 @@ function handleFileUpload(event) {
             <input v-model.number="authStore.editedBook.bookDetail.rating" type="number" placeholder="Rating (0-5)" min="0" max="5">
             <input v-model="authStore.editedBook.bookDetail.description" type="text" placeholder="Description">
            
-            <div class="w-1/2 border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center gap-4 bg-gray-50 hover:bg-white hover:border-[#173f5f] transition-all cursor-pointer group relative">
+            <div class="w-full sm:w-3/4 md:w-1/2 border-2 border-dashed border-gray-300 rounded-xl p-4 sm:p-8 flex flex-col items-center justify-center gap-4 bg-gray-50 hover:bg-white hover:border-[#173f5f] transition-all cursor-pointer group relative">
                 <input @change="handleFileUpload" type="file" class="absolute inset-0 opacity-0 cursor-pointer z-10">
                 <div class="p-4 bg-blue-50 rounded-full group-hover:bg-[#173f5f]/10 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#173f5f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">

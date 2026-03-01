@@ -9,20 +9,21 @@ function navigateBooks(){
 
 <template>
   <div class="flex flex-col w-full overflow-x-hidden">
-    <div class="flex justify-between items-center px-10 py-4 bg-white border-b border-slate-100">
-      <router-link to="/" class="flex items-center gap-3 group cursor-pointer">
-        <div class="w-10 h-10 rounded-xl bg-[#173f5f] flex items-center justify-center group-hover:bg-indigo-600 transition-all duration-300 shadow-lg shadow-indigo-100 rotate-3 group-hover:rotate-0">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Top bar -->
+    <div class="flex justify-between items-center px-4 sm:px-6 md:px-10 py-4 bg-white border-b border-slate-100">
+      <router-link to="/" class="flex items-center gap-2 sm:gap-3 group cursor-pointer">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#173f5f] flex items-center justify-center group-hover:bg-indigo-600 transition-all duration-300 shadow-lg shadow-indigo-100 rotate-3 group-hover:rotate-0">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
           </svg>
         </div>
         <div class="flex flex-col">
-          <span class="text-[#173f5f] font-serif font-black text-xl tracking-tighter leading-none">THE BOOKSHELF</span>
-          <span class="text-indigo-600 font-bold text-[10px] tracking-widest uppercase opacity-80">Premium Collection</span>
+          <span class="text-[#173f5f] font-serif font-black text-base sm:text-xl tracking-tighter leading-none">THE BOOKSHELF</span>
+          <span class="text-indigo-600 font-bold text-[9px] sm:text-[10px] tracking-widest uppercase opacity-80">Premium Collection</span>
         </div>
       </router-link>
       
-      <div class="flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-4">
         <a href="#" class="p-2 rounded-xl hover:bg-slate-50 text-slate-400 hover:text-indigo-600 transition-all">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.791-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         </a>
@@ -38,27 +39,29 @@ function navigateBooks(){
       </div>
     </div>
     
-    <div class="h-12 bg-[#173f5f] flex justify-center gap-10 text-white items-center">
-      <router-link to="/" class="font-bold border-r h-6 pr-[50px] hover:text-indigo-200 transition-colors">HOME</router-link>
-      <router-link to="/about" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">About Us</router-link>
-      <router-link to="/books" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">Books</router-link>
-      <router-link to="/new-release" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">New Release</router-link>
-      <router-link to="/contact" class="border-r h-6 pr-14 hover:text-indigo-200 transition-colors uppercase">Contact Us</router-link>
-      <router-link to="/blog" class="hover:text-indigo-200 transition-colors uppercase">Blog</router-link>
+    <!-- Navigation bar -->
+    <div class="bg-[#173f5f] flex flex-wrap justify-center gap-3 sm:gap-6 md:gap-10 text-white items-center px-4 py-3 md:h-12">
+      <router-link to="/" class="font-bold text-xs sm:text-sm md:text-base hover:text-indigo-200 transition-colors">HOME</router-link>
+      <router-link to="/about" class="text-xs sm:text-sm md:text-base hover:text-indigo-200 transition-colors uppercase">About Us</router-link>
+      <router-link to="/books" class="text-xs sm:text-sm md:text-base hover:text-indigo-200 transition-colors uppercase">Books</router-link>
+      <router-link to="/new-release" class="text-xs sm:text-sm md:text-base hover:text-indigo-200 transition-colors uppercase">New Release</router-link>
+      <router-link to="/contact" class="text-xs sm:text-sm md:text-base hover:text-indigo-200 transition-colors uppercase">Contact Us</router-link>
+      <router-link to="/blog" class="text-xs sm:text-sm md:text-base hover:text-indigo-200 transition-colors uppercase">Blog</router-link>
     </div>
 
-    <div class="w-full h-[600px] flex">
-      <div class="w-1/2 flex flex-col shrink-0 bg-gradient-to-r from-[#ffe5e5] to-white">
-        <h1 class="text-[50px] font-bold font-serif ml-10 mt-28 text-[#173f5f]">The Bookshelf</h1>
-        <p class="text-[20px] font-serif mr-16 leading-9 ml-10 text-[#173f5f]">
+    <!-- Hero section -->
+    <div class="w-full min-h-[400px] md:min-h-[600px] flex flex-col md:flex-row">
+      <div class="w-full md:w-1/2 flex flex-col shrink-0 bg-gradient-to-r from-[#ffe5e5] to-white px-6 sm:px-8 md:px-0">
+        <h1 class="text-3xl sm:text-4xl md:text-[50px] font-bold font-serif ml-0 md:ml-10 mt-12 md:mt-28 text-[#173f5f]">The Bookshelf</h1>
+        <p class="text-base sm:text-lg md:text-[20px] font-serif mr-4 md:mr-16 leading-7 md:leading-9 ml-0 md:ml-10 mt-3 text-[#173f5f]">
           Your neighborhood nook for timeless stories and new discoveries. Each volume is chosen with care, inviting you to browse, linger, and find your next great read. Where the timeless joy of turning a page awaits.
         </p>
-        <router-link to="/about" class="ml-10 mt-5 gap-2 justify-center items-center rounded-xl flex border w-[197px] h-[61px] border-[#173f5f] hover:bg-[#173f5f] hover:text-white transition-all duration-300 font-bold tracking-wider">
+        <router-link to="/about" class="ml-0 md:ml-10 mt-5 mb-8 md:mb-0 gap-2 justify-center items-center rounded-xl flex border w-[180px] sm:w-[197px] h-[50px] sm:h-[61px] border-[#173f5f] hover:bg-[#173f5f] hover:text-white transition-all duration-300 font-bold tracking-wider text-sm sm:text-base">
           READ MORE 
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </router-link>
       </div>
-      <div class="flex gap-3 shrink-0">
+      <div class="hidden md:flex gap-3 shrink-0 overflow-hidden">
         <div><img class="w-[150px] shadow-lg rounded-[10px] mt-[100px]" src="\src\assets\book1.jpg" alt=""></div>
         <div class="flex flex-col gap-3">
           <img class="w-[150px] shadow-lg h-44 mt-6 rounded-[10px]" src="/src\assets\book2.jpg" alt="">
@@ -72,6 +75,13 @@ function navigateBooks(){
           <img class="w-[140px] shadow-lg rounded-[10px] mt-2" src="/src\assets\book6.png" alt="">
           <img class="w-[140px] shadow-lg rounded-[10px]" src="\src\assets\book8.jpg" alt="">
         </div>
+      </div>
+      <!-- Mobile book images grid -->
+      <div class="grid grid-cols-4 gap-2 px-4 pb-6 md:hidden">
+        <img class="w-full h-32 object-cover shadow-lg rounded-lg" src="\src\assets\book1.jpg" alt="">
+        <img class="w-full h-32 object-cover shadow-lg rounded-lg" src="/src\assets\book2.jpg" alt="">
+        <img class="w-full h-32 object-cover shadow-lg rounded-lg" src="/src\assets\book4.jpg" alt="">
+        <img class="w-full h-32 object-cover shadow-lg rounded-lg" src="\src\assets\book8.jpg" alt="">
       </div>
     </div>
 
