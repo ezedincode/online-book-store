@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Online Book Store</title>
+  <desc id="desc">Rounded square with an open book icon</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bg)"/>
+  <g transform="translate(12,16)">
+    <path d="M4 6c4.5-2.2 9-2.2 13.5 0 4.5-2.2 9-2.2 13.5 0v18c-4.5-2.2-9-2.2-13.5 0-4.5-2.2-9-2.2-13.5 0z" fill="#e5f2ff"/>
+    <path d="M17.5 6v18" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M8 11h6" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M8 15h6" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M21 11h6" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M21 15h6" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+</svg>
