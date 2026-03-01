@@ -58,7 +58,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Allow your Vue dev server
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173","https://online-book-store-zeta-weld.vercel.app/"));
 
         // Or use patterns for more flexibility
         // configuration.setAllowedOriginPatterns(List.of("*")); // For testing
